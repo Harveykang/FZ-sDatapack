@@ -1,0 +1,1 @@
+scoreboard objectives add leaveGame minecraft.custom:minecraft.leave_game

@@ -1,0 +1,8 @@
+{
+	"values": [ 
+		"fz:score/main",
+		"fz:sleep/main",
+		"fz:cleaner/trigger",
+		"fz:logintips/main"
+	]
+}

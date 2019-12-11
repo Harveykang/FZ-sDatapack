@@ -1,0 +1,2 @@
+scoreboard players reset totalTraded tradingCounter
+scoreboard players reset totalTraded totalTraded

@@ -1,0 +1,2 @@
+scoreboard players reset totalFished fishingCounter
+scoreboard players reset totalFished totalFished
