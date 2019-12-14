@@ -1,4 +1,4 @@
-记分板：/trigger scoreswitch set -1关；1循环播放；2-7订阅单独的记分板
+记分板：/trigger scoreswitch set -1关；1循环播放；2-9订阅单独的记分板
 扫地姬：/trigger cleaner set -1关；>=30开
 
 v1.3.1
