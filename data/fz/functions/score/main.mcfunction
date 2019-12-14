@@ -1,3 +1,6 @@
+#活跃度模块#
+function fz:score/activation/main
+####
 #记分板循环#
 scoreboard players add scoreboard timeCounter 1
 execute if score scoreboard timeCounter matches 600 run scoreboard objectives setdisplay sidebar.team.gold killCounter
@@ -6,8 +9,9 @@ execute if score scoreboard timeCounter matches 1800 run scoreboard objectives s
 execute if score scoreboard timeCounter matches 2400 run scoreboard objectives setdisplay sidebar.team.gold tradingCounter
 execute if score scoreboard timeCounter matches 3000 run scoreboard objectives setdisplay sidebar.team.gold fishingCounter
 execute if score scoreboard timeCounter matches 3600 run scoreboard objectives setdisplay sidebar.team.gold damageTaken
-execute if score scoreboard timeCounter matches 4200 run scoreboard objectives setdisplay sidebar.team.light_purple totalList
-execute if score scoreboard timeCounter matches 4200.. run scoreboard players set scoreboard timeCounter 0
+execute if score scoreboard timeCounter matches 4200 run scoreboard objectives setdisplay sidebar.team.gold activation
+execute if score scoreboard timeCounter matches 4800 run scoreboard objectives setdisplay sidebar.team.gold totalList
+execute if score scoreboard timeCounter matches 4800.. run scoreboard players set scoreboard timeCounter 0
 ####
 #记分板开关#
 scoreboard players enable @a scoreswitch
@@ -19,8 +23,9 @@ execute if entity @a[scores={scoreswitch=4},team=!deathCounter] run function fz:
 execute if entity @a[scores={scoreswitch=5},team=!tradingCounter] run function fz:score/teams/tradingcounter
 execute if entity @a[scores={scoreswitch=6},team=!fishingCounter] run function fz:score/teams/fishingcounter
 execute if entity @a[scores={scoreswitch=7},team=!damageTaken] run function fz:score/teams/damagetaken
-execute if entity @a[scores={scoreswitch=8},team=!totalList] run function fz:score/teams/totallist
-execute if entity @a[scores={scoreswitch=9..}] run tellraw @a[scores={scoreswitch=9..}] [{"text":"不存在编号为9及以上的记分板","color":"dark_red"}]
+execute if entity @a[scores={scoreswitch=8},team=!activation] run function fz:score/activation/team
+execute if entity @a[scores={scoreswitch=9},team=!totalList] run function fz:score/teams/totallist
+execute if entity @a[scores={scoreswitch=10..}] run tellraw @a[scores={scoreswitch=10..}] [{"text":"不存在编号为10及以上的记分板","color":"dark_red"}]
 scoreboard players set @a[scores={scoreswitch=..-1}] scoreswitch 0
 scoreboard players set @a[scores={scoreswitch=1..}] scoreswitch 0
 team join displayScoresOff @a[team=]
@@ -44,6 +49,7 @@ execute as @a unless score @s tDeathC matches -2147483648..2147483647 run scoreb
 execute as @a unless score @s tTradeC matches -2147483648..2147483647 run scoreboard players operation @s tTradeC = @s tTradeC
 execute as @a unless score @s tFishC matches -2147483648..2147483647 run scoreboard players operation @s tFishC = @s tFishC
 execute as @a unless score @s tHurtC matches -2147483648..2147483647 run scoreboard players operation @s tHurtC = @s tHurtC
+execute as @a unless score @s tActC matches -2147483648..2147483647 run scoreboard players operation @s tActC = @s tActC
 #两板分数不等时运行计算函数
 execute as @a unless score @s tDigC = @s digCounter run function fz:score/totalcalculator/tdigc
 execute as @a unless score @s tKillC = @s killCounter run function fz:score/totalcalculator/tkillc
@@ -51,6 +57,7 @@ execute as @a unless score @s tDeathC = @s deathCounter run function fz:score/to
 execute as @a unless score @s tTradeC = @s tradingCounter run function fz:score/totalcalculator/ttradec
 execute as @a unless score @s tFishC = @s fishingCounter run function fz:score/totalcalculator/tfishc
 execute as @a unless score @s tHurtC = @s damageTaken run function fz:score/totalcalculator/thurtc
+execute as @a unless score @s tActC = @s activation run function fz:score/activation/totalcalculator
 #总榜在分榜中显示开sc=1
 execute if score totalDug totalDug matches 1.. run scoreboard players operation totalDug digCounter = totalDug totalList
 execute if score totalKilled totalKilled matches 1.. run scoreboard players operation totalKilled killCounter = totalKilled totalList
@@ -58,6 +65,7 @@ execute if score totalDeath totalDeath matches 1.. run scoreboard players operat
 execute if score totalTraded totalTraded matches 1.. run scoreboard players operation totalTraded tradingCounter = totalTraded totalList
 execute if score totalFished totalFished matches 1.. run scoreboard players operation totalFished fishingCounter = totalFished totalList
 execute if score totalHurt totalHurt matches 1.. run scoreboard players operation totalHurt damageTaken = totalHurt totalList
+execute if score totalActivation totalActivation matches 1.. run scoreboard players operation totalActivation activation = totalActivation totalList
 #总榜在分榜中显示关sc=0
 #execute if score totalDug totalDug matches ..0 run function fz:score/totalnodisplay/digcounter
 #execute if score totalKilled totalKilled matches ..0 run function fz:score/totalnodisplay/killcounter
@@ -65,4 +73,5 @@ execute if score totalHurt totalHurt matches 1.. run scoreboard players operatio
 #execute if score totalTraded totalTraded matches ..0 run function fz:score/totalnodisplay/tradingcounter
 #execute if score totalFished totalFished matches ..0 run function fz:score/totalnodisplay/fishingcounter
 #execute if score totalHurt totalHurt matches ..0 run function fz:score/totalnodisplay/damagetaken
+#execute if score totalActivation totalActivation matches ..0 run function fz:score/activation/totalnodisplay
 ####

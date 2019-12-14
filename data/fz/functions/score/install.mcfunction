@@ -1,3 +1,6 @@
+#安装活跃度排行#
+function fz:score/activation/install
+####
 #安装记分项目#
 scoreboard objectives add digCounter dummy {"text":"挖掘榜","color":"gray"}
 scoreboard objectives add deathCounter deathCount {"text":"死亡榜","color":"dark_red"}

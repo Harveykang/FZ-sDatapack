@@ -6,4 +6,4 @@ function fz:health/install
 function fz:sleep/install
 function fz:cleaner/install
 function fz:logintips/install
-tellraw @a [{"text":"[Datapack]"},{"text":" FZ'sDataPack v1.3.0 installed successfully","color":"gold"}]
+tellraw @a [{"text":"[Datapack]"},{"text":" FZ'sDataPack v1.3.1 installed successfully","color":"gold"}]
