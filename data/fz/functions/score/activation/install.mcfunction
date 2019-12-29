@@ -1,4 +1,3 @@
-scoreboard objectives add actCounter dummy
 scoreboard objectives add activation dummy [{"text":"活跃度排行","color":"aqua"},{"text":"(小时)","color":"gold"}]
 team add activation
 team modify activation color aqua

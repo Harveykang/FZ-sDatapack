@@ -1,15 +1,26 @@
-*This project is licensed under the terms of the GNU General Public License v3.0.*
-*Copyright (C)2019 Harvey.Kang*
+# @Author: Harvey.Kang
+# @Create: 2019-10-01
+# @License: GNU General Public License, version 3 (GPL-3.0)
+
+# This project is licensed under the terms of the GNU General Public License v3.0.
+# Copyright (C)2019 Harvey.Kang
+
 记分板：/trigger scoreswitch set -1关；1循环播放；2-9订阅单独的记分板
 扫地姬：/trigger cleaner set -1关；>=30开
+如果您在使用carpet mod的话：
+务必使用“/script invoke summon 玩家名”召唤假人，可以避免将他们计入记分板总分！
+务必使用“/script invoke kill 玩家名”移除假人，否则其标签无法删除！
+
+v1.3.2
+-为carpet mod小人添加防止计入记分板总分的生成/删除命令
 
 v1.3.1
 -增加活跃度排行(小时)记分板
 
 v1.3.0
--支持1.14.x-1.15.x
+-支持1.15
 -大修记分板，增加了总分数计算和显示
--*不兼容*之前版本的记分板
+-*不兼容*1.2.x的记分板
 -添加部分代码的注释
 
 v1.2.3
@@ -48,4 +59,4 @@ v1.0
 -支持1.14.x
 -增加玩家睡觉提醒
 -增加玩家tab栏和头顶的血量显示
--增加记分版：挖掘量、击杀数、死亡次数、钓鱼次数、交易次数，以及记分版开关
+-增加记分版：挖掘量、造成伤害量、死亡次数、钓鱼次数、交易次数，以及记分版开关

@@ -51,13 +51,13 @@ execute as @a unless score @s tFishC matches -2147483648..2147483647 run scorebo
 execute as @a unless score @s tHurtC matches -2147483648..2147483647 run scoreboard players operation @s tHurtC = @s tHurtC
 execute as @a unless score @s tActC matches -2147483648..2147483647 run scoreboard players operation @s tActC = @s tActC
 #两板分数不等时运行计算函数
-execute as @a unless score @s tDigC = @s digCounter run function fz:score/totalcalculator/tdigc
-execute as @a unless score @s tKillC = @s killCounter run function fz:score/totalcalculator/tkillc
-execute as @a unless score @s tDeathC = @s deathCounter run function fz:score/totalcalculator/tdeathc
-execute as @a unless score @s tTradeC = @s tradingCounter run function fz:score/totalcalculator/ttradec
-execute as @a unless score @s tFishC = @s fishingCounter run function fz:score/totalcalculator/tfishc
-execute as @a unless score @s tHurtC = @s damageTaken run function fz:score/totalcalculator/thurtc
-execute as @a unless score @s tActC = @s activation run function fz:score/activation/totalcalculator
+execute as @a[tag=!carpetBot] unless score @s tDigC = @s digCounter run function fz:score/totalcalculator/tdigc
+execute as @a[tag=!carpetBot] unless score @s tKillC = @s killCounter run function fz:score/totalcalculator/tkillc
+execute as @a[tag=!carpetBot] unless score @s tDeathC = @s deathCounter run function fz:score/totalcalculator/tdeathc
+execute as @a[tag=!carpetBot] unless score @s tTradeC = @s tradingCounter run function fz:score/totalcalculator/ttradec
+execute as @a[tag=!carpetBot] unless score @s tFishC = @s fishingCounter run function fz:score/totalcalculator/tfishc
+execute as @a[tag=!carpetBot] unless score @s tHurtC = @s damageTaken run function fz:score/totalcalculator/thurtc
+execute as @a[tag=!carpetBot] unless score @s tActC = @s activation run function fz:score/activation/totalcalculator
 #总榜在分榜中显示开sc=1
 execute if score totalDug totalDug matches 1.. run scoreboard players operation totalDug digCounter = totalDug totalList
 execute if score totalKilled totalKilled matches 1.. run scoreboard players operation totalKilled killCounter = totalKilled totalList

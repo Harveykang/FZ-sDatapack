@@ -2,13 +2,22 @@
 function fz:score/activation/install
 ####
 #安装记分项目#
-scoreboard objectives add digCounter dummy {"text":"挖掘榜","color":"gray"}
-scoreboard objectives add deathCounter deathCount {"text":"死亡榜","color":"dark_red"}
-scoreboard objectives add killCounter totalKillCount {"text":"击杀榜","color":"red"}
-scoreboard objectives add tradingCounter minecraft.custom:minecraft.traded_with_villager {"text":"PY榜","color":"green"}
-scoreboard objectives add fishingCounter minecraft.custom:minecraft.fish_caught {"text":"钓鱼榜","color":"blue"}
-scoreboard objectives add damageTaken minecraft.custom:minecraft.damage_taken [{"text":"奥利给榜","color":"yellow"},{"text":"(伤害*10)","color":"gole"}]
-scoreboard objectives add totalList dummy {"text":"统计总量","color":"light_purple"}
+scoreboard objectives add digCounter dummy
+scoreboard objectives add deathCounter deathCount
+scoreboard objectives add killCounter totalKillCount
+scoreboard objectives add tradingCounter minecraft.custom:minecraft.traded_with_villager
+scoreboard objectives add fishingCounter minecraft.custom:minecraft.fish_caught
+scoreboard objectives add damageTaken minecraft.custom:minecraft.damage_taken
+scoreboard objectives add totalList dummy
+####
+#编辑记分项目#
+scoreboard objectives modify digCounter displayname {"text":"挖掘榜","color":"gray"}
+scoreboard objectives modify deathCounter displayname {"text":"死亡榜","color":"dark_red"}
+scoreboard objectives modify killCounter displayname {"text":"击杀榜","color":"red"}
+scoreboard objectives modify tradingCounter displayname {"text":"PY榜","color":"green"}
+scoreboard objectives modify fishingCounter displayname {"text":"钓鱼榜","color":"blue"}
+scoreboard objectives modify damageTaken displayname [{"text":"奥利给榜","color":"yellow"},{"text":"(受伤害*10)","color":"gole"}]
+scoreboard objectives modify totalList displayname {"text":"统计总量","color":"light_purple"}
 ####
 #安装工具项目#
 scoreboard objectives add diamond_pickaxe minecraft.used:minecraft.diamond_pickaxe
