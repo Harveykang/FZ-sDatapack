@@ -81,7 +81,7 @@ team modify damageTaken color yellow
 scoreboard objectives setdisplay sidebar.team.yellow damageTaken
 team modify totalList color light_purple
 scoreboard objectives setdisplay sidebar.team.light_purple totalList
-scoreboard objectives add scoreswitch trigger
+scoreboard objectives add scoreSwitch trigger
 ####
 #安装缓存#
 scoreboard objectives add tDigC dummy

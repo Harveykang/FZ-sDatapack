@@ -12,11 +12,11 @@ scoreboard objectives add 20 dummy
 scoreboard objectives add carpet dummy
 scoreboard players set 20 20 20
 scoreboard players reset carpet carpet
-execute store result score carpet carpet run carpet
-execute if score carpet carpet matches 1 run function fz:scarpet
+function fz:carpet
 function fz:score/install
 function fz:health/install
 function fz:sleep/install
 function fz:cleaner/install
 function fz:logintips/install
-tellraw @a [{"text":"[Datapack]"},{"text":" FZ'sDataPack v1.3.2 installed successfully","color":"gold"}]
+function fz:config/install
+tellraw @a [{"text":"[Datapack]"},{"text":" FZ'sDataPack v1.3.3 installed successfully","color":"gold"}]

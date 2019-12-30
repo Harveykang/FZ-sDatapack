@@ -14,20 +14,20 @@ execute if score scoreboard timeCounter matches 4800 run scoreboard objectives s
 execute if score scoreboard timeCounter matches 4800.. run scoreboard players set scoreboard timeCounter 0
 ####
 #记分板开关#
-scoreboard players enable @a scoreswitch
-execute if entity @a[scores={scoreswitch=..-1},team=!displayScoresOff] run function fz:score/teams/displayscoresoff
-execute if entity @a[scores={scoreswitch=1},team=!displayScoresOn] run function fz:score/teams/displayscoreson
-execute if entity @a[scores={scoreswitch=2},team=!killCounter] run function fz:score/teams/killcounter
-execute if entity @a[scores={scoreswitch=3},team=!digCounter] run function fz:score/teams/digcounter
-execute if entity @a[scores={scoreswitch=4},team=!deathCounter] run function fz:score/teams/deathcounter
-execute if entity @a[scores={scoreswitch=5},team=!tradingCounter] run function fz:score/teams/tradingcounter
-execute if entity @a[scores={scoreswitch=6},team=!fishingCounter] run function fz:score/teams/fishingcounter
-execute if entity @a[scores={scoreswitch=7},team=!damageTaken] run function fz:score/teams/damagetaken
-execute if entity @a[scores={scoreswitch=8},team=!activation] run function fz:score/activation/team
-execute if entity @a[scores={scoreswitch=9},team=!totalList] run function fz:score/teams/totallist
-execute if entity @a[scores={scoreswitch=10..}] run tellraw @a[scores={scoreswitch=10..}] [{"text":"不存在编号为10及以上的记分板","color":"dark_red"}]
-scoreboard players set @a[scores={scoreswitch=..-1}] scoreswitch 0
-scoreboard players set @a[scores={scoreswitch=1..}] scoreswitch 0
+scoreboard players enable @a scoreSwitch
+execute as @a if entity @a[scores={scoreSwitch=..-1},team=!displayScoresOff] run function fz:score/teams/displayscoresoff
+execute if entity @a[scores={scoreSwitch=1},team=!displayScoresOn] run function fz:score/teams/displayscoreson
+execute if entity @a[scores={scoreSwitch=2},team=!killCounter] run function fz:score/teams/killcounter
+execute if entity @a[scores={scoreSwitch=3},team=!digCounter] run function fz:score/teams/digcounter
+execute if entity @a[scores={scoreSwitch=4},team=!deathCounter] run function fz:score/teams/deathcounter
+execute if entity @a[scores={scoreSwitch=5},team=!tradingCounter] run function fz:score/teams/tradingcounter
+execute if entity @a[scores={scoreSwitch=6},team=!fishingCounter] run function fz:score/teams/fishingcounter
+execute if entity @a[scores={scoreSwitch=7},team=!damageTaken] run function fz:score/teams/damagetaken
+execute if entity @a[scores={scoreSwitch=8},team=!activation] run function fz:score/activation/team
+execute if entity @a[scores={scoreSwitch=9},team=!totalList] run function fz:score/teams/totallist
+execute if entity @a[scores={scoreSwitch=10..}] run tellraw @a[scores={scoreSwitch=10..}] [{"text":"不存在编号为10及以上的记分板","color":"dark_red"}]
+scoreboard players set @a[scores={scoreSwitch=..-1}] scoreSwitch 0
+scoreboard players set @a[scores={scoreSwitch=1..}] scoreSwitch 0
 team join displayScoresOff @a[team=]
 ####
 #添加工具计入挖掘量#

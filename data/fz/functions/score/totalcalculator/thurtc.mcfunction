@@ -1,4 +1,4 @@
-#计算每个玩家本游戏刻挖掘量和上一游戏刻受伤害量的差
+#计算每个玩家本游戏刻玩家受伤害量和上一游戏刻受伤害量的差
 scoreboard players operation @s tHurtC -= @s damageTaken
 #将两游戏刻玩家受伤害量的差之和加在总榜上
 scoreboard players operation totalHurt totalList -= @s tHurtC

@@ -7,9 +7,14 @@
 
 记分板：/trigger scoreswitch set -1关；1循环播放；2-9订阅单独的记分板
 扫地姬：/trigger cleaner set -1关；>=30开
+设置界面：/trigger options
 如果您在使用carpet mod的话：
 务必使用“/script invoke summon 玩家名”召唤假人，可以避免将他们计入记分板总分！
 务必使用“/script invoke kill 玩家名”移除假人，否则其标签无法删除！
+
+v1.3.3
+-添加鳕鱼、鲑鱼、热带鱼、河豚、蝙蝠的AI开关
+-添加设置界面
 
 v1.3.2
 -为carpet mod小人添加防止计入记分板总分的生成/删除命令
