@@ -1,2 +1,2 @@
-scoreboard players reset totalDeath deathCounter
-scoreboard players reset totalDeath totalDeath
+scoreboard players reset 总死亡数 deathCounter
+scoreboard players reset 总死亡数 totalDeath

@@ -1,2 +1,2 @@
-scoreboard players reset totalFished fishingCounter
-scoreboard players reset totalFished totalFished
+scoreboard players reset 总钓鱼数 fishingCounter
+scoreboard players reset 总钓鱼数 totalFished

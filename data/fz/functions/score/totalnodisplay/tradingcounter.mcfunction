@@ -1,2 +1,2 @@
-scoreboard players reset totalTraded tradingCounter
-scoreboard players reset totalTraded totalTraded
+scoreboard players reset 总交易数 tradingCounter
+scoreboard players reset 总交易数 totalTraded

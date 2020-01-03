@@ -1,2 +1,2 @@
-scoreboard players reset totalKilled killCounter
-scoreboard players reset totalKilled totalKilled
+scoreboard players reset 总击杀数 killCounter
+scoreboard players reset 总击杀数 totalKilled

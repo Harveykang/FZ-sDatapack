@@ -1,6 +1,3 @@
-#安装活跃度排行#
-function fz:score/activation/install
-####
 #安装记分项目#
 scoreboard objectives add digCounter dummy
 scoreboard objectives add deathCounter deathCount
@@ -8,7 +5,9 @@ scoreboard objectives add killCounter totalKillCount
 scoreboard objectives add tradingCounter minecraft.custom:minecraft.traded_with_villager
 scoreboard objectives add fishingCounter minecraft.custom:minecraft.fish_caught
 scoreboard objectives add damageTaken minecraft.custom:minecraft.damage_taken
+scoreboard objectives add actCounter minecraft.custom:minecraft.play_one_minute
 scoreboard objectives add totalList dummy
+scoreboard objectives add activation dummy
 ####
 #编辑记分项目#
 scoreboard objectives modify digCounter displayname {"text":"挖掘榜","color":"gray"}
@@ -18,6 +17,7 @@ scoreboard objectives modify tradingCounter displayname {"text":"PY榜","color":
 scoreboard objectives modify fishingCounter displayname {"text":"钓鱼榜","color":"blue"}
 scoreboard objectives modify damageTaken displayname [{"text":"奥利给榜","color":"yellow"},{"text":"(受伤害*10)","color":"gole"}]
 scoreboard objectives modify totalList displayname {"text":"统计总量","color":"light_purple"}
+ scoreboard objectives modify activation displayname [{"text":"活跃度排行","color":"aqua"},{"text":"(小时)","color":"gold"}]
 ####
 #安装工具项目#
 scoreboard objectives add diamond_pickaxe minecraft.used:minecraft.diamond_pickaxe
@@ -37,14 +37,16 @@ scoreboard objectives add totalDeath dummy
 scoreboard objectives add totalTraded dummy
 scoreboard objectives add totalFished dummy
 scoreboard objectives add totalHurt dummy
+scoreboard objectives add totalActivation dummy
 ####
-###实验性###在分项目下显示总量###
-scoreboard players set totalDug totalDug 1
-scoreboard players set totalKilled totalKilled 1
-scoreboard players set totalDeath totalDeath 1
-scoreboard players set totalTraded totalTraded 1
-scoreboard players set totalFished totalFished 1
-scoreboard players set totalHurt totalHurt 1
+###实验性###在分项目下显示总量###活跃度的该项在其自己的安装文件内
+scoreboard players set 总挖掘数 totalDug 1
+scoreboard players set 总击杀数 totalKilled 1
+scoreboard players set 总死亡数 totalDeath 1
+scoreboard players set 总交易数 totalTraded 1
+scoreboard players set 总钓鱼数 totalFished 1
+scoreboard players set 总受伤害量 totalHurt 1
+scoreboard players set 总活跃时间 totalActivation 1
 ####
 #安装记分板显示#
 #安装队伍
@@ -57,14 +59,17 @@ team add tradingCounter
 team add fishingCounter
 team add damageTaken
 team add totalList
-team join digCounter totalDug
-team join killCounter totalKilled
-team join deathCounter totalDeath
-team join fishingCounter totalFished
-team join tradingCounter totalTraded
-team join damageTaken totalHurt
+team add activation
+team join digCounter 总挖掘数
+team join killCounter 总击杀数
+team join deathCounter 总死亡数
+team join fishingCounter 总钓鱼数
+team join tradingCounter 总交易数
+team join damageTaken 总受伤害量
+team join activation 总活跃时间
 #安装显示
 team modify displayScoresOff color dark_purple
+scoreboard objectives setdisplay sidebar.team.dark_purple
 team modify displayScoresOn color gold
 scoreboard objectives setdisplay sidebar.team.gold totalList
 team modify killCounter color red
@@ -81,6 +86,8 @@ team modify damageTaken color yellow
 scoreboard objectives setdisplay sidebar.team.yellow damageTaken
 team modify totalList color light_purple
 scoreboard objectives setdisplay sidebar.team.light_purple totalList
+team modify activation color aqua
+scoreboard objectives setdisplay sidebar.team.aqua activation
 scoreboard objectives add scoreSwitch trigger
 ####
 #安装缓存#
@@ -90,4 +97,5 @@ scoreboard objectives add tKillC dummy
 scoreboard objectives add tFishC dummy
 scoreboard objectives add tTradeC dummy
 scoreboard objectives add tHurtC dummy
+scoreboard objectives add tActC dummy
 ####

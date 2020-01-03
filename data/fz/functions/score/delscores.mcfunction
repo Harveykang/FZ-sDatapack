@@ -5,6 +5,8 @@ scoreboard objectives remove killCounter
 scoreboard objectives remove tradingCounter
 scoreboard objectives remove damageTaken
 scoreboard objectives remove fishingCounter
+scoreboard objectives remove activation
+scoreboard objectives remove actCounter
 scoreboard objectives remove totalList
 scoreboard objectives remove tDigC
 scoreboard objectives remove tDeathC
