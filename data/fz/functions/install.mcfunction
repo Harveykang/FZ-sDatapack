@@ -6,10 +6,11 @@
 
 # This project is licensed under the terms of the GNU General Public License v3.0.
 # Copyright (C)2019-2020 Harvey.Kang
-scoreboard objectives add version dummy
 #升级用#
+scoreboard objectives add version dummy
 scoreboard players operation version version = version version
-execute if score version version matches ..132 run function fz:updatebeforeinstall
+execute if score version version matches ..132 run function fz:updatebeforeinstall133
+execute if score version version matches 133 run function fz:updatebeforeinstall134
 ####
 scoreboard objectives add timeCounter dummy
 scoreboard objectives add 20 dummy
@@ -22,7 +23,8 @@ function fz:cleaner/install
 function fz:logintips/install
 function fz:config/install
 #升级用#
-execute if score installed installed matches ..132 run function fz:updateafterinstall
-scoreboard players set version version 133
+execute if score installed installed matches ..132 run function fz:updateafterinstall133
+execute if score installed installed matches 133 run function fz:updateafterinstall134
+scoreboard players set version version 1331
 ####
 tellraw @a [{"text":"[Datapack]"},{"text":" FZ'sDataPack v1.3.3 installed successfully","color":"gold"}]
