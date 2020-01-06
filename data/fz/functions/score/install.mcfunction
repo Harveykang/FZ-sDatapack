@@ -68,8 +68,7 @@ team join tradingCounter 总交易数
 team join damageTaken 总受伤害量
 team join activation 总活跃时间
 #安装显示
-team modify displayScoresOff color dark_purple
-scoreboard objectives setdisplay sidebar.team.dark_purple
+scoreboard objectives setdisplay sidebar
 team modify displayScoresOn color gold
 scoreboard objectives setdisplay sidebar.team.gold totalList
 team modify killCounter color red

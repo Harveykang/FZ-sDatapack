@@ -75,3 +75,6 @@ execute if score 总活跃时间 totalActivation matches 1.. run scoreboard play
 #execute if score totalHurt totalHurt matches ..0 run function fz:score/totalnodisplay/damagetaken
 #execute if score totalActivation totalActivation matches ..0 run function fz:score/activation/totalnodisplay
 ####
+#假人清理模块#
+execute as @a[tag=noCarpetBot] run function fz:score/removebottag
+####

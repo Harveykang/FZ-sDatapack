@@ -21,8 +21,3 @@ execute if data storage minecraft:pufferfish {ai:0b} run tellraw @s [{"text":"- 
 execute unless data storage minecraft:bat {ai:0b} run tellraw @s [{"text":"- "},{"text":"蝙蝠[minecraft:bat]","hoverEvent":{"action":"show_text","value":"状态：开启"}},{"text":" "},{"text":"[✔]","color":"gray","hoverEvent":{"action":"show_text","value":"已开启"}},{"text":" "},{"text":"[✘]","color":"dark_red","clickEvent":{"action":"run_command","value":"/data modify storage minecraft:bat ai set value 0b"},"hoverEvent":{"action":"show_text","value":"点击以关闭"}}]
 #如果蝙蝠ai为开则显示开启按钮
 execute if data storage minecraft:bat {ai:0b} run tellraw @s [{"text":"- "},{"text":"蝙蝠[minecraft:bat]","hoverEvent":{"action":"show_text","value":"状态：关闭"}},{"text":" "},{"text":"[✔]","color":"dark_green","clickEvent":{"action":"run_command","value":"/data modify storage minecraft:bat ai set value 1b"},"hoverEvent":{"action":"show_text","value":"点击以开启"}},{"text":" "},{"text":"[✘]","color":"gray","hoverEvent":{"action":"show_text","value":"已关闭"}}]
-
-
-
-
-
