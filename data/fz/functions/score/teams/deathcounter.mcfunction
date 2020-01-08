@@ -1,3 +1,3 @@
-tellraw @a[scores={scoreSwitch=4},team=!deathCounter] [{"text":"您已订阅"},{"text":"死亡榜","color":"dark_red"}]
-team join deathCounter @a[scores={scoreSwitch=4},team=!deathCounter]
+tellraw @s [{"text":"您已订阅"},{"text":"死亡榜","color":"dark_red"}]
+team join deathCounter @s
 scoreboard objectives setdisplay sidebar.team.dark_red deathCounter

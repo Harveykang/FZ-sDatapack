@@ -15,31 +15,31 @@ execute if score scoreboard timeCounter matches 4800.. run scoreboard players se
 ####
 #记分板开关#
 scoreboard players enable @a scoreSwitch
-execute if entity @a[scores={scoreSwitch=..-1},team=!displayScoresOff] run function fz:score/teams/displayscoresoff
-execute if entity @a[scores={scoreSwitch=1},team=!displayScoresOn] run function fz:score/teams/displayscoreson
-execute if entity @a[scores={scoreSwitch=2},team=!killCounter] run function fz:score/teams/killcounter
-execute if entity @a[scores={scoreSwitch=3},team=!digCounter] run function fz:score/teams/digcounter
-execute if entity @a[scores={scoreSwitch=4},team=!deathCounter] run function fz:score/teams/deathcounter
-execute if entity @a[scores={scoreSwitch=5},team=!tradingCounter] run function fz:score/teams/tradingcounter
-execute if entity @a[scores={scoreSwitch=6},team=!fishingCounter] run function fz:score/teams/fishingcounter
-execute if entity @a[scores={scoreSwitch=7},team=!damageTaken] run function fz:score/teams/damagetaken
-execute if entity @a[scores={scoreSwitch=8},team=!activation] run function fz:score/teams/activation
-execute if entity @a[scores={scoreSwitch=9},team=!totalList] run function fz:score/teams/totallist
-execute if entity @a[scores={scoreSwitch=10..}] run tellraw @a[scores={scoreSwitch=10..}] [{"text":"不存在编号为10及以上的记分板","color":"dark_red"}]
+execute as @a[scores={scoreSwitch=..-1},team=!displayScoresOff] run function fz:score/teams/displayscoresoff
+execute as @a[scores={scoreSwitch=1},team=!displayScoresOn] run function fz:score/teams/displayscoreson
+execute as @a[scores={scoreSwitch=2},team=!killCounter] run function fz:score/teams/killcounter
+execute as @a[scores={scoreSwitch=3},team=!digCounter] run function fz:score/teams/digcounter
+execute as @a[scores={scoreSwitch=4},team=!deathCounter] run function fz:score/teams/deathcounter
+execute as @a[scores={scoreSwitch=5},team=!tradingCounter] run function fz:score/teams/tradingcounter
+execute as @a[scores={scoreSwitch=6},team=!fishingCounter] run function fz:score/teams/fishingcounter
+execute as @a[scores={scoreSwitch=7},team=!damageTaken] run function fz:score/teams/damagetaken
+execute as @a[scores={scoreSwitch=8},team=!activation] run function fz:score/teams/activation
+execute as @a[scores={scoreSwitch=9},team=!totalList] run function fz:score/teams/totallist
+execute as @a[scores={scoreSwitch=10..}] run tellraw @a[scores={scoreSwitch=10..}] [{"text":"不存在编号为10及以上的记分板","color":"dark_red"}]
 scoreboard players set @a[scores={scoreSwitch=..-1}] scoreSwitch 0
 scoreboard players set @a[scores={scoreSwitch=1..}] scoreSwitch 0
 team join displayScoresOff @a[team=]
 ####
 #添加工具计入挖掘量#
-execute if entity @a[scores={diamond_pickaxe=1..}] as @a[scores={diamond_pickaxe=1..}] run function fz:score/tools/diamond_pickaxe
-execute if entity @a[scores={iron_pickaxe=1..}] as @a[scores={iron_pickaxe=1..}] run function fz:score/tools/iron_pickaxe
-execute if entity @a[scores={stone_pickaxe=1..}] as @a[scores={stone_pickaxe=1..}] run function fz:score/tools/stone_pickaxe
-execute if entity @a[scores={diamond_axe=1..}] as @a[scores={diamond_axe=1..}] run function fz:score/tools/diamond_axe
-execute if entity @a[scores={iron_axe=1..}] as @a[scores={iron_axe=1..}] run function fz:score/tools/iron_axe
-execute if entity @a[scores={stone_axe=1..}] as @a[scores={stone_axe=1..}] run function fz:score/tools/stone_axe
-execute if entity @a[scores={diamond_shovel=1..}] as @a[scores={diamond_shovel=1..}] run function fz:score/tools/diamond_shovel
-execute if entity @a[scores={iron_shovel=1..}] as @a[scores={iron_shovel=1..}] run function fz:score/tools/iron_shovel
-execute if entity @a[scores={stone_shovel=1..}] as @a[scores={stone_shovel=1..}] run function fz:score/tools/stone_shovel
+execute as @a[scores={diamond_pickaxe=1..}] run function fz:score/tools/diamond_pickaxe
+execute as @a[scores={iron_pickaxe=1..}] run function fz:score/tools/iron_pickaxe
+execute as @a[scores={stone_pickaxe=1..}] run function fz:score/tools/stone_pickaxe
+execute as @a[scores={diamond_axe=1..}] run function fz:score/tools/diamond_axe
+execute as @a[scores={iron_axe=1..}] run function fz:score/tools/iron_axe
+execute as @a[scores={stone_axe=1..}] run function fz:score/tools/stone_axe
+execute as @a[scores={diamond_shovel=1..}] run function fz:score/tools/diamond_shovel
+execute as @a[scores={iron_shovel=1..}] run function fz:score/tools/iron_shovel
+execute as @a[scores={stone_shovel=1..}] run function fz:score/tools/stone_shovel
 ####
 #计算总量#
 #给缓存记分板赋初始值

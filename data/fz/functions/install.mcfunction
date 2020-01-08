@@ -12,9 +12,12 @@ scoreboard players operation version version = version version
 execute if score version version matches ..132 run function fz:updatebeforeinstall133
 execute if score version version matches 133 run function fz:updatebeforeinstall134
 ####
+gamerule disableElytraMovementCheck true
 scoreboard objectives add timeCounter dummy
 scoreboard objectives add 20 dummy
+scoreboard objectives add 1 dummy
 scoreboard players set 20 20 20
+scoreboard players set 1 1 1
 function fz:carpet/install
 function fz:score/install
 function fz:health/install
