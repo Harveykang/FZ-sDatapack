@@ -8,6 +8,7 @@ scoreboard objectives add damageTaken minecraft.custom:minecraft.damage_taken
 scoreboard objectives add actCounter minecraft.custom:minecraft.play_one_minute
 scoreboard objectives add totalList dummy
 scoreboard objectives add activation dummy
+scoreboard objectives add botDeath deathCount
 ####
 #编辑记分项目#
 scoreboard objectives modify digCounter displayname {"text":"挖掘榜","color":"gray"}
@@ -17,7 +18,7 @@ scoreboard objectives modify tradingCounter displayname {"text":"PY榜","color":
 scoreboard objectives modify fishingCounter displayname {"text":"钓鱼榜","color":"blue"}
 scoreboard objectives modify damageTaken displayname [{"text":"奥利给榜","color":"yellow"},{"text":"(受伤害*10)","color":"gole"}]
 scoreboard objectives modify totalList displayname {"text":"统计总量","color":"light_purple"}
- scoreboard objectives modify activation displayname [{"text":"活跃度排行","color":"aqua"},{"text":"(小时)","color":"gold"}]
+scoreboard objectives modify activation displayname [{"text":"活跃度排行","color":"aqua"},{"text":"(小时)","color":"gold"}]
 ####
 #安装工具项目#
 scoreboard objectives add diamond_pickaxe minecraft.used:minecraft.diamond_pickaxe

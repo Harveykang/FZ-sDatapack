@@ -8,6 +8,9 @@ scoreboard objectives setdisplay sidebar.team.blue
 scoreboard objectives setdisplay sidebar.team.yellow
 scoreboard objectives setdisplay sidebar.team.light_purple
 ####
+#移除记分板#
+scoreboard objectives remove botDeath
+####
 #移除工具项目#
 scoreboard objectives remove diamond_pickaxe
 scoreboard objectives remove diamond_axe
