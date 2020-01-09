@@ -1,5 +1,6 @@
 #活跃度模块#
 execute as @a[tag=!carpetBot] if score @s actCounter matches 72000.. run function fz:score/activationcarry
+execute as @a[tag=carpetBot] run scoreboard players operation @s actCounter -= 1 1
 ####
 #记分板循环#
 scoreboard players add scoreboard timeCounter 1
@@ -75,6 +76,7 @@ execute if score 总活跃时间 totalActivation matches 1.. run scoreboard play
 #execute if score totalHurt totalHurt matches ..0 run function fz:score/totalnodisplay/damagetaken
 #execute if score totalActivation totalActivation matches ..0 run function fz:score/activation/totalnodisplay
 ####
-#假人清理模块#
-execute as @a[tag=noCarpetBot] run function fz:score/removebottag
+#假人模块#
+execute as @a[tag=carpetBot,team=!fakePlayer] run function fz:score/runaddprefix
+execute as @a[tag=carpetBot,tag=!newCarpetBot] if score @s leaveGame matches 0 run function fz:score/runbotdead
 ####
