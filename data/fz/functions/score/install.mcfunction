@@ -99,3 +99,5 @@ scoreboard objectives add tTradeC dummy
 scoreboard objectives add tHurtC dummy
 scoreboard objectives add tActC dummy
 ####
+#安装完成
+scoreboard players set scoreboard installed 1

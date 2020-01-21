@@ -12,3 +12,4 @@ execute if score cleaner setCleanTime matches 1201..1800 run function fz:cleaner
 execute if score cleaner setCleanTime matches 601..1200 run function fz:cleaner/time/60s
 execute if score cleaner setCleanTime matches ..600 run function fz:cleaner/time/30s
 scoreboard players operation cleaner timeCounter = cleaner setCleanTime
+execute as @a[tag=!noCleanerSound] at @s run playsound minecraft:block.note_block.pling player @s ~ ~ ~ 1 2

@@ -52,13 +52,13 @@ execute as @a[tag=!carpetBot] unless score @s tFishC matches -2147483648..214748
 execute as @a[tag=!carpetBot] unless score @s tHurtC matches -2147483648..2147483647 run scoreboard players operation @s tHurtC = @s tHurtC
 execute as @a[tag=!carpetBot] unless score @s tActC matches -2147483648..2147483647 run scoreboard players operation @s tActC = @s tActC
 #两板分数不等时运行计算函数
-execute as @a[tag=!carpetBot] unless score @s tDigC = @s digCounter run function fz:score/totalcalculator/tdigc
-execute as @a[tag=!carpetBot] unless score @s tKillC = @s killCounter run function fz:score/totalcalculator/tkillc
-execute as @a[tag=!carpetBot] unless score @s tDeathC = @s deathCounter run function fz:score/totalcalculator/tdeathc
-execute as @a[tag=!carpetBot] unless score @s tTradeC = @s tradingCounter run function fz:score/totalcalculator/ttradec
-execute as @a[tag=!carpetBot] unless score @s tFishC = @s fishingCounter run function fz:score/totalcalculator/tfishc
-execute as @a[tag=!carpetBot] unless score @s tHurtC = @s damageTaken run function fz:score/totalcalculator/thurtc
-execute as @a[tag=!carpetBot] unless score @s tActC = @s activation run function fz:score/totalcalculator/tactc
+execute as @a unless score @s tDigC = @s digCounter run function fz:score/totalcalculator/tdigc
+execute as @a unless score @s tKillC = @s killCounter run function fz:score/totalcalculator/tkillc
+execute as @a unless score @s tDeathC = @s deathCounter run function fz:score/totalcalculator/tdeathc
+execute as @a unless score @s tTradeC = @s tradingCounter run function fz:score/totalcalculator/ttradec
+execute as @a unless score @s tFishC = @s fishingCounter run function fz:score/totalcalculator/tfishc
+execute as @a unless score @s tHurtC = @s damageTaken run function fz:score/totalcalculator/thurtc
+execute as @a unless score @s tActC = @s activation run function fz:score/totalcalculator/tactc
 #总榜在分榜中显示开=1
 execute if score 总挖掘数 totalDug matches 1.. run scoreboard players operation 总挖掘数 digCounter = 总挖掘数 totalList
 execute if score 总击杀数 totalKilled matches 1.. run scoreboard players operation 总击杀数 killCounter = 总击杀数 totalList
@@ -76,7 +76,7 @@ execute if score 总活跃时间 totalActivation matches 1.. run scoreboard play
 #execute if score totalHurt totalHurt matches ..0 run function fz:score/totalnodisplay/damagetaken
 #execute if score totalActivation totalActivation matches ..0 run function fz:score/activation/totalnodisplay
 ####
-#假人模块#
+#假人模块#重置死亡榜在死亡榜计算其中
 execute as @a[tag=carpetBot,team=!fakePlayer] run function fz:score/runaddprefix
-execute as @a[tag=carpetBot,tag=!newCarpetBot] if score @s leaveGame matches 0 run function fz:score/runbotdead
+execute as @a[team=fakePlayer,tag=!carpetBot] run function fz:score/runbotdead
 ####

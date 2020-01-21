@@ -3,6 +3,5 @@ scoreboard objectives remove cleaned
 scoreboard objectives remove cleanerBooleans
 scoreboard objectives remove setCleanTime
 scoreboard objectives remove displayCleanTime
-scoreboard objectives remove cleanerBar
-scoreboard objectives remove cleanerChat
+scoreboard objectives remove cleanerMessage
 bossbar remove cleaner

@@ -1,1 +1,1 @@
-scoreboard objectives remove leaveGame
+scoreboard players reset logintips installed

@@ -3,8 +3,10 @@ execute if data storage minecraft:salmon {ai:0b} as @e[type=minecraft:salmon,nbt
 execute if data storage minecraft:tropical_fish {ai:0b} as @e[type=minecraft:tropical_fish,nbt={}] run data modify entity @s NoAI set value 1b
 execute if data storage minecraft:pufferfish {ai:0b} as @e[type=minecraft:pufferfish,nbt={}] run data modify entity @s NoAI set value 1b
 execute if data storage minecraft:bat {ai:0b} as @e[type=minecraft:bat,nbt={}] run data modify entity @s NoAI set value 1b
+execute if data storage minecraft:rabbit {ai:0b} as @e[type=minecraft:rabbit,nbt={}] run data modify entity @s NoAI set value 1b
 execute if data storage minecraft:cod {ai:1b} as @e[type=minecraft:cod,nbt={NoAI:1b}] run data modify entity @s NoAI set value 0b
 execute if data storage minecraft:salmon {ai:1b} as @e[type=minecraft:salmon,nbt={NoAI:1b}] run data modify entity @s NoAI set value 0b
 execute if data storage minecraft:tropical_fish {ai:1b} as @e[type=minecraft:tropical_fish,nbt={NoAI:1b}] run data modify entity @s NoAI set value 0b
 execute if data storage minecraft:pufferfish {ai:1b} as @e[type=minecraft:pufferfish,nbt={NoAI:1b}] run data modify entity @s NoAI set value 0b
 execute if data storage minecraft:bat {ai:1b} as @e[type=minecraft:bat,nbt={NoAI:1b}] run data modify entity @s NoAI set value 0b
+execute if data storage minecraft:rabbit {ai:1b} as @e[type=minecraft:rabbit,nbt={NoAI:1b}] run data modify entity @s NoAI set value 0b
