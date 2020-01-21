@@ -2,3 +2,4 @@ tellraw @a[tag=!noDisplayCleanerChat] [{"text":"注意!","color":"dark_red","bol
 bossbar set cleaner style notched_6
 bossbar set cleaner color red
 bossbar set cleaner value 40
+execute as @a[tag=!noCleanerSound] at @s run playsound minecraft:block.note_block.bit player @s ~ ~ ~ 1 1

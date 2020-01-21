@@ -1,1 +1,1 @@
-scoreboard objectives add leaveGame minecraft.custom:minecraft.leave_game
+scoreboard players set logintips installed 1

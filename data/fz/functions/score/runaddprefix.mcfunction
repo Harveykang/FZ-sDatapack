@@ -1,2 +1,2 @@
 team join fakePlayer @s
-execute if entity @s[tag=newCarpetBot] run tellraw @a {"text":"↑假的"}
+tellraw @a {"text":"↑假的"}
