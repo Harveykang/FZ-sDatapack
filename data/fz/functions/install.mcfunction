@@ -32,8 +32,10 @@ function fz:config/install
 scoreboard players set versionMajor version 1
 scoreboard players set versionMinor version 4
 scoreboard players set versionPatch version 0
-scoreboard players set dev1 version 20200121
-scoreboard players set dev2prefix version 0
-scoreboard players set dev2 version 838
+scoreboard players reset dev1 version
+scoreboard players reset dev2prefix version
+scoreboard players reset dev2 version
 ####
-tellraw @a [{"text":"[Datapack]"},{"text":" FZ'sDatapack-","color":"gold"},{"score":{"objective":"version","name":"versionMajor"},"color":"gold"},{"text":".","color":"gold"},{"score":{"objective":"version","name":"versionMinor"},"color":"gold"},{"text":".","color":"gold"},{"score":{"objective":"version","name":"versionPatch"},"color":"gold"},{"text":"-dev.","color":"gold"},{"score":{"objective":"version","name":"dev1"},"color":"gold"},{"text":".","color":"gold"},{"score":{"objective":"version","name":"dev2prefix"},"color":"gold"},{"score":{"objective":"version","name":"dev2"},"color":"gold"},{"text":" installed successfully","color":"gold"}]
+#预览版本号
+#tellraw @a [{"text":"[Datapack]"},{"text":" FZ'sDatapack-","color":"gold"},{"score":{"objective":"version","name":"versionMajor"},"color":"gold"},{"text":".","color":"gold"},{"score":{"objective":"version","name":"versionMinor"},"color":"gold"},{"text":".","color":"gold"},{"score":{"objective":"version","name":"versionPatch"},"color":"gold"},{"text":"-dev.","color":"gold"},{"score":{"objective":"version","name":"dev1"},"color":"gold"},{"text":".","color":"gold"},{"score":{"objective":"version","name":"dev2prefix"},"color":"gold"},{"score":{"objective":"version","name":"dev2"},"color":"gold"},{"text":" installed successfully","color":"gold"}]
+tellraw @a [{"text":"[Datapack]"},{"text":" FZ'sDatapack-","color":"gold"},{"score":{"objective":"version","name":"versionMajor"},"color":"gold"},{"text":".","color":"gold"},{"score":{"objective":"version","name":"versionMinor"},"color":"gold"},{"text":".","color":"gold"},{"score":{"objective":"version","name":"versionPatch"},"color":"gold"},{"text":" installed successfully","color":"gold"}]
