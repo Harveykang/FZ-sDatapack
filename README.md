@@ -16,9 +16,14 @@ A Minecraft Datapack
 
 ##### v1.4
 - 解决了手杀tagplayer不能删除其标签的缺陷，标签会在他们重进游戏时删除，如果使用指令再次召唤则不会删除
-- 为扫地姬增加了boss血条时间提示
-- 扫地姬的聊天栏和血条提示均可开关
-- tagplayer现在有“假的”前缀，避免分不清玩家列表中那些是假人
+- 为扫地姬增加了boss血条时间提示和声音提醒，聊天栏、血条栏、声音提示均可开关
+- tagplayer现在有“假的 ”前缀，避免分不清玩家列表中那些是假人
+- 普通玩家可用的假人tp指令
+- 增加假人tp的玩家相对坐标功能
+- 现在又可以通过”/function fz:功能名/uninstall“删除部分功能了，它们依然可在需要的时候通过”/function fz:功能名/install“添加回来
+- 添加更多tagplayer帮助（一大坨）
+- 添加假人状态查询功能，使用/script invoke check xxx或/script invoke checkall
+- tagplayer适配https://github.com/Harveykang/TagPlayer地毯插件，需要放在“存档名\scripts”文件夹中
 
 ##### v1.3.3
 - 添加鳕鱼、鲑鱼、热带鱼、河豚、蝙蝠的AI开关(仅1.15)
