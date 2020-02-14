@@ -1,2 +1,0 @@
-scoreboard players reset totalActivation activation
-scoreboard players reset totalActivation totalActivation
