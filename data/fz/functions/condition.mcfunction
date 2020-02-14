@@ -1,1 +1,0 @@
-execute if score installed installed matches 1 run function fz:main
