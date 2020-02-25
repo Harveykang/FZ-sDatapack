@@ -12,9 +12,12 @@ A Minecraft Datapack
 设置界面：/trigger options  
 如果您在使用carpet mod的话：  
 务必使用“/script invoke summon 玩家名”召唤假人，可以避免将他们计入记分板总分！  
-务必使用“/script invoke kill 玩家名”移除假人，否则其标签无法删除！  
 
-##### v1.4
+##### v1.4.1(未发布)
+- 修复并改善了玩家睡觉提醒，现在需要玩家自己确认是否发出想要跳过夜晚的消息
+- 更新内置tagplayer(/script invoke summon等)版本为0.1.0
+
+##### v1.4.0
 - 解决了手杀tagplayer不能删除其标签的缺陷，标签会在他们重进游戏时删除，如果使用指令再次召唤则不会删除
 - 为扫地姬增加了boss血条时间提示和声音提醒，聊天栏、血条栏、声音提示均可开关
 - tagplayer现在有“假的 ”前缀，避免分不清玩家列表中那些是假人
