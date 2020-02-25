@@ -12,6 +12,7 @@ A Minecraft Datapack
 设置界面：/trigger options  
 如果您在使用carpet mod的话：  
 务必使用“/script invoke summon 玩家名”召唤假人，可以避免将他们计入记分板总分！  
+适配https://github.com/Harveykang/TagPlayer 地毯插件，需要放在“存档名\scripts”文件夹中   
 
 ##### v1.4.1(未发布)
 - 修复并改善了玩家睡觉提醒，现在需要玩家自己确认是否发出想要跳过夜晚的消息
