@@ -7,7 +7,7 @@ A Minecraft Datapack
 #### This project is licensed under the terms of the GNU General Public License v3.0.
 #### Copyright (C)2019-2020 Harvey.Kang
 
-记分板：/trigger scoreswitch set -1关；1循环播放；2-9订阅单独的记分板  
+记分板：/trigger scoreSwitch set -1关；1循环播放；2-9订阅单独的记分板  
 扫地姬：/trigger cleaner set -1关；>=30开  
 设置界面：/trigger options  
 如果您在使用carpet mod的话：  
