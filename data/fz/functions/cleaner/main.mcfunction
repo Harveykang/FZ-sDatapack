@@ -2,7 +2,7 @@ scoreboard players operation cleaner secondsCounter = cleaner timeCounter
 scoreboard players operation cleaner secondsCounter /= 20 20
 scoreboard players operation cleaner secondsCounter += 1 1
 bossbar set cleaner players @a[tag=displayCleanerBossBar]
-bossbar set cleaner name [{"text":"扫地姬倒计时："},{"score":{"objective":"secondsCounter","name":"cleaner"},"bold":true},{"text":"游戏秒后清理"}]
+bossbar set cleaner name [{"text":"扫地姬倒计时："},{"score":{"objective":"secondsCounter","name":"cleaner"},"bold":true},{"text":"游戏秒后清理掉落物"}]
 execute if score cleaner timeCounter matches ..0 run function fz:cleaner/subclean
 execute if score cleaner timeCounter matches 6000 run function fz:cleaner/time/5min
 execute if score cleaner timeCounter matches 6000 run tellraw @a[tag=!noDisplayCleanerChat] [{"text":"5游戏分后清理掉落物~","color":"green"}]

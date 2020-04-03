@@ -6,3 +6,4 @@ scoreboard objectives remove secondsCounter
 scoreboard objectives remove displayCleanTime
 scoreboard objectives remove cleanerMessage
 bossbar remove cleaner
+scoreboard players set cleaner installed -1
