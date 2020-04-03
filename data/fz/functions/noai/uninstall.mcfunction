@@ -1,1 +1,1 @@
-scoreboard players reset noai installed
+scoreboard players set noai installed -1

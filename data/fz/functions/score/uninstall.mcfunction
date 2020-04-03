@@ -8,9 +8,6 @@ scoreboard objectives setdisplay sidebar.team.blue
 scoreboard objectives setdisplay sidebar.team.yellow
 scoreboard objectives setdisplay sidebar.team.light_purple
 ####
-#移除记分板#
-scoreboard objectives remove botDeath
-####
 #移除工具项目#
 scoreboard objectives remove diamond_pickaxe
 scoreboard objectives remove diamond_axe
@@ -54,6 +51,10 @@ scoreboard objectives remove tTradeC
 scoreboard objectives remove tHurtC
 scoreboard objectives remove tActC
 ####
+#1.16#
+function fz:score/1.16/uninstall
+####
 #询问是否移除记分板#
 tellraw @a [{"text":"是否删除记分板数据？"},{"text":"（不可恢复！！）","color":"red","bold":true},{"text":"点此删除","color":"dark_red","underlined":true,"clickEvent":{"action":"run_command","value":"/function fz:score/delscores"},"hoverEvent":{"action":"show_text","value":"删除所有记分板数据"}},{"text":"(仅op)"}]
 ####
+scoreboard players set scoreboard installed -1

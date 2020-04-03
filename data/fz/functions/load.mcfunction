@@ -1,0 +1,1 @@
+execute unless score uninstalled uninstalled matches 1 run function fz:install

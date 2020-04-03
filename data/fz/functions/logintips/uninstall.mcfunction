@@ -1,1 +1,1 @@
-scoreboard players reset logintips installed
+scoreboard players set logintips installed -1

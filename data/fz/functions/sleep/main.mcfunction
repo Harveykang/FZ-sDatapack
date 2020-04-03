@@ -1,2 +1,2 @@
-execute if entity @a[scores= {sleeper=1..}] run tellraw @a [{"selector":"@a[scores={sleeper=1..}]","color":"green"},{"text":"在休息了噢，如要跳过夜晚，请在聊天栏说明噢，","bold":"true","color":"red"},{"text":"QwQ","color":"red"}]
+execute as @a[scores= {sleeper=1..}] run tellraw @s [{"text":"如要跳过夜晚，请","bold":true,"color":"red"},{"text":"点击此处","bold":true,"underlined":true,"color":"dark_green","clickEvent":{"action":"run_command","value":"我在睡觉觉啦，快来一起睡~"}},{"text":"在聊天栏说明噢QwQ","color":"red"}]
 scoreboard players set @a sleeper 0

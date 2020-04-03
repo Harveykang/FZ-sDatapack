@@ -21,14 +21,14 @@ scoreboard objectives modify totalList displayname {"text":"统计总量","color
 scoreboard objectives modify activation displayname [{"text":"活跃度排行","color":"aqua"},{"text":"(小时)","color":"gold"}]
 ####
 #安装工具项目#
-scoreboard objectives add diamond_pickaxe minecraft.used:minecraft.diamond_pickaxe
 scoreboard objectives add diamond_axe minecraft.used:minecraft.diamond_axe
+scoreboard objectives add diamond_pickaxe minecraft.used:minecraft.diamond_pickaxe
 scoreboard objectives add diamond_shovel minecraft.used:minecraft.diamond_shovel
-scoreboard objectives add iron_pickaxe minecraft.used:minecraft.iron_pickaxe
 scoreboard objectives add iron_axe minecraft.used:minecraft.iron_axe
+scoreboard objectives add iron_pickaxe minecraft.used:minecraft.iron_pickaxe
 scoreboard objectives add iron_shovel minecraft.used:minecraft.iron_shovel
-scoreboard objectives add stone_pickaxe minecraft.used:minecraft.stone_pickaxe
 scoreboard objectives add stone_axe minecraft.used:minecraft.stone_axe
+scoreboard objectives add stone_pickaxe minecraft.used:minecraft.stone_pickaxe
 scoreboard objectives add stone_shovel minecraft.used:minecraft.stone_shovel
 ####
 #安装统计项目#
@@ -99,5 +99,7 @@ scoreboard objectives add tTradeC dummy
 scoreboard objectives add tHurtC dummy
 scoreboard objectives add tActC dummy
 ####
+#安装1.16项目#
+function fz:score/1.16/install
 #安装完成
 scoreboard players set scoreboard installed 1
