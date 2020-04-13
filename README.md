@@ -14,6 +14,7 @@ A Minecraft Datapack
 务必使用“/script invoke summon 玩家名”召唤假人，可以避免将他们计入记分板总分！  
 使用“/script invoke help”查看tagplayer帮助  
 适配https://github.com/Harveykang/TagPlayer 地毯插件，需要放在“存档名\scripts”文件夹中  
+卸载时先输入“/function fz:uninstall”，再删除数据包
 
 ##### v1.4.2
 - 修复扫地机时间设置过长时会导致刷屏清物品的bug
