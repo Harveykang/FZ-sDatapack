@@ -1,1 +1,0 @@
-scoreboard players reset logintips installed

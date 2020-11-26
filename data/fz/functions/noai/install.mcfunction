@@ -1,1 +1,0 @@
-scoreboard players set noai installed 1
