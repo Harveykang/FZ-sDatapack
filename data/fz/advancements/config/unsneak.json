@@ -1,0 +1,28 @@
+{
+    "criteria": {
+        "config_check_sneak":{
+            "trigger": "minecraft:tick",
+            "conditions": {
+                "player": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "entity": "this",
+                        "predicate": {
+                            "player": {
+                                "advancements": {
+                                    "fz:config/sneak": true
+                                }
+                            },
+                            "flags": {
+                                "is_sneaking": false
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "rewards": {
+        "function": "fz:config/unsneak"
+    }
+}

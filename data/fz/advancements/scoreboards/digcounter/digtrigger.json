@@ -1,0 +1,236 @@
+{
+    "criteria": {
+        "used_tools": {
+            "trigger": "minecraft:tick",
+            "conditions": {
+                "player": [
+                    {
+                        "condition": "minecraft:alternative",
+                        "terms": [
+                            {
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedWooShovel": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedWooPickaxe": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedWooHoe": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedWooAxe": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedStoShovel": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedStoPickaxe": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedStoHoe": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedStoAxe": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedNetShovel": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedNetPickaxe": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedNetHoe": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedNetAxe": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedIroShovel": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedIroPickaxe": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedIroHoe": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedIroAxe": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedGolShovel": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedGolPickaxe": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedDiaHoe": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedGolAxe": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedDiaShovel": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedDiaPickaxe": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedDiaHoe": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },{
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedDiaAxe": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "rewards": {
+        "function": "fz:scoreboards/digcounter/digtrigger"
+    }
+}

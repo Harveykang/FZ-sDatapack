@@ -1,0 +1,27 @@
+{
+    "criteria": {
+        "trading_counter": {
+            "trigger": "minecraft:villager_trade",
+            "conditions": {
+                "player": [
+                    {
+                        "condition": "minecraft:inverted",
+                        "term": {
+                            "condition": "minecraft:entity_scores",
+                            "entity": "this",
+                            "scores": {
+                                "carpetBot": {
+                                    "max":1,
+                                    "min":1
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "rewards": {
+        "function": "fz:scoreboards/tradingcounter/calculator"
+    }
+}
