@@ -4,20 +4,116 @@
 scoreboard_add('carpetBot');
 run('team add carpetBot');
 run('team modify carpetBot prefix "假的 "');
-__command() -> (
-	help()
-);
-__config() -> m( l('stay_loaded', true)); 
-global_version = '1.0.0';
-global_bot_state = m();
+global_version = '2.0.0';
+__config() -> {
+	'stay_loaded' -> true,
+	'allow_command_conflicts' -> true,
+	'commands' -> {
+		'' -> 'help',
+		'spawn <player>' -> 'summon',
+		'kill <bot>' -> 'kill',
+		'killall' -> 'killall',
+		'attack <bot>' -> 'attack_once',
+		'attack <bot> continuous' -> 'attack_continuous',
+		'attack <bot> interval <tick>' -> 'attack_interval',
+		'attack <bot> once' -> 'attack_once',
+		'drop <bot> all' -> 'drop_all',
+		'drop <bot>' -> 'drop_once',
+		'drop <bot> continuous' -> 'drop_continuous',
+		'drop <bot> interval <tick>' -> 'drop_interval',
+		'drop <bot> mainhand' -> 'drop_mainhand',
+		'drop <bot> offhand' -> 'drop_offhand',
+		'drop <bot> once' -> 'drop_once',
+		'dropStack <bot> all' -> 'drop_stack_all',
+		'dropStack <bot>' -> 'drop_stack_once',
+		'dropStack <bot> continuous' -> 'drop_stack_continuous',
+		'dropStack <bot> interval <tick>' -> 'drop_stack_interval',
+		'dropStack <bot> mainhand' -> 'drop_stack_mainhand',
+		'dropStack <bot> offhand' -> 'drop_stack_offhand',
+		'dropStack <bot> once' -> 'drop_stack_once',
+		'jump <bot>' -> 'jump_once',
+		'jump <bot> continuous' -> 'jump_continuous',
+		'jump <bot> interval <tick>' -> 'jump_interval',
+		'jump <bot> once' -> 'jump_once',
+		'swapHands <bot>' -> 'swap_hands_once',
+		'swapHands <bot> continuous' -> 'swap_hands_continuous',
+		'swapHands <bot> interval <tick>' -> 'swap_hands_interval',
+		'swapHands <bot> once' -> 'swap_hands_once',
+		'use <bot>' -> 'use_once',
+		'use <bot> continuous' -> 'use_continuous',
+		'use <bot> interval <tick>' -> 'use_interval',
+		'use <bot> once' -> 'use_once',
+		'mount <bot>' -> 'mount',
+		'dismount <bot>' -> 'dismount',
+		'sprint <bot>' -> 'sprint',
+		'unsprint <bot>' -> 'unsprint',
+		'sneak <bot>' -> 'sneak',
+		'unsneak <bot>' -> 'unsneak',
+		'look <bot> back' -> 'turn_back',
+		'look <bot> left' -> 'turn_left',
+		'look <bot> right' -> 'turn_right',
+		'look <bot> up' -> 'look_up',
+		'look <bot> down' -> 'look_down',
+		'look <bot> east' -> 'look_east',
+		'look <bot> north' -> 'look_north',
+		'look <bot> south' -> 'look_south',
+		'look <bot> west' -> 'look_west',
+		'look <bot> <rotation>' -> 'look',
+		'look <bot> position <position>' -> 'look_pos',
+		'move <bot> backward' -> 'move_backward',
+		'move <bot> forward' -> 'move_forward',
+		'move <bot> left' -> 'move_left',
+		'move <bot> right' -> 'move_right',
+		'move <bot> stop' -> 'move_stop',
+		'stop <bot>' -> 'stop',
+		'check <bot>' -> 'check',
+		'checkall' -> 'checkall',
+		'tp <bot> <position>' -> 'tp',
+		'tp <bot> <position> <rotation>' -> 'tp_with_rotation',
+		'tp <bot> <player>' -> 'tp_to_player',
+		'tp <bot> <position> atBot' -> 'tp_at_bot',
+		'tp <bot> <position> <rotation> atBot' -> 'tp_at_bot_with_rotation',
+	},
+	'arguments' -> {
+		'bot' -> {
+			'type' -> 'term',
+			'suggester' -> _(args) -> (
+				player_list = player('all');
+				bot_list = l();
+				c_for(i = 0, i < length(player_list), i += 1,
+					one_player_str = player_list:i;
+					if (scoreboard('carpetBot', one_player_str) == 1,
+						put(bot_list, length(bot_list), player_list:i)
+					);
+				);
+				return(bot_list)
+			)
+		},
+		'player' -> {
+			'type' -> 'term',
+			'suggester' -> _(args) -> player('all')
+		},
+		'tick' -> {
+			'type' -> 'int',
+			'min' -> 1, 
+			'suggest' -> []
+		},
+		'rotation' -> {
+			'type' -> 'rotation'
+		},
+		'position' -> {
+			'type' -> 'location'
+		}
+	}
+};
 __check_offline(player_name) ->(
 	f_player = player(player_name);
 	if (!f_player, 
-		print('§4假人'+f_player+'未在线');
+		print('§4假人'+player_name+'未在线');
 		exit()
 	);
 	if (scoreboard('carpetBot', f_player) != 1,
-		print('§4'+f_player+'不是假人'+scoreboard('carpetBot', f_player));
+		print('§4'+f_player+'不是假人');
 		exit()
 	)
 );
@@ -40,19 +136,6 @@ __check_pos(x) ->(
 	);
 	return(x)
 );
-__check_tick(tick) ->(
-	tick = round(number(tick));
-	if(tick == null,
-		print('§4请输入正确的游戏刻间隔');
-		exit()
-	);
-	if(tick < 2,
-		print(tick);
-		print(str('§4整数不能小于2，却发现了%d',tick));
-		exit()
-	);
-	return(tick)
-);
 __check_dim(s_player,f_player) ->(
 	if (s_player~'dimension' != f_player~'dimension',
 		print('§4不在同一维度！');
@@ -73,64 +156,76 @@ __player_list(i,player_list) ->(
 );
 __on_player_disconnects(player, reason) ->(
 	if(scoreboard('carpetBot', player) == 1,
+		scoreboard_remove('actimeCounter', player);
+		__delete_all_files(player);
 		scoreboard_remove('carpetBot', player);
 		run('team leave '+ player)
 	);
 );
+__delete_all_files(f_player) ->(
+	delete_file(f_player + '-' + 'attack', 'text');
+	delete_file(f_player + '-' + 'drop', 'text');
+	delete_file(f_player + '-' + 'drop_stack', 'text');
+	delete_file(f_player + '-' + 'jump', 'text');
+	delete_file(f_player + '-' + 'swap_hands', 'text');
+	delete_file(f_player + '-' + 'use', 'text');
+	delete_file(f_player + '-' + 'move_vertical', 'text');
+	delete_file(f_player + '-' + 'move_transverse', 'text');
+);
 help() ->(
-	print('--使用帮助(/tagplayer)：');
-	print('/tagplayer summon <玩家名>\n  -生成假人');
-	print('/tagplayer kill <玩家名>\n  -删除假人');
-	print('/tagplayer killall\n  -删除全部假人');
-	print('/tagplayer tp <玩家名> <x> <y> <z>\n  -传送假人，<x>、<y>、<z>可替换为“s”来代表你的位置');
-	print('/tagplayer tp_at_<参数> <玩家名> <x> <y> <z>\n  -以<假人/玩家>为坐标原点传送假人');
-	print('/tagplayer check <玩家名>\n  -检查假人状态');
-	print('/tagplayer checkall\n  -检查所有假人状态');
-	print('/tagplayer look <玩家名> <仰俯> <偏航>\n  -转动假人视角，<x>、<y>可替换为“s”来代表你的视角方向');
-	print('/tagplayer look_<up/down/east/west/south/north> <玩家名>\n  -让假人向<上/下/东/西/南/北>方向看');
-	print('/tagplayer turn_<back/left/right> <玩家名>\n  -让假人向<后/左/右>方向看');
-	print('/tagplayer move_<backward/forward/left/right/stop> <玩家名>\n  -让假人<向前/向后/向左/向右/停止>移动');
-	print('/tagplayer <attack/drop/drop_stack/jump/swap_hands/use>_continuous <玩家名>\n  -让假人持续<攻击或挖掘/丢一个物品/丢一组物品/跳跃/换手/使用物品>');
-	print('/tagplayer <attack/drop/drop_stack/jump/swap_hands/use>_interval <玩家名> <整数>\n  -让假人每<整数>游戏刻<攻击/丢一个物品/丢一组物品/跳跃/换手/使用物品>一次');
-	print('/tagplayer <attack/drop/drop_stack/jump/swap_hands/use>_once <玩家名>\n  -让假人<攻击或挖掘/丢一个物品/丢一组物品/跳跃/换手/使用物品>一次');
-	print('/tagplayer <attack/drop/drop_stack/jump/swap_hands/use>_stop <玩家名>\n  -让假人停止<攻击或挖掘/丢一个物品/丢一组物品/跳跃/换手/使用物品>，如果没有动作则和<参数>_once功能一致');
-	print('/tagplayer <sneak/unsneak> <玩家名>\n  -让假人<潜行/站立>');
-	print('/tagplayer <sprint/unsprint> <玩家名>\n  -让假人准备<疾跑/行走>，在水中疾跑以游泳');
-	print('/tagplayer <mount/dismount> <玩家名>\n  -让假人<乘坐/卸下>');
-	print('/tagplayer stop <玩家名>\n  -停止假人的一切动作');
+	print('--使用帮助：');
+	print('/tagplayer spawn <玩家名>\n  - 生成假人');
+	print('/tagplayer kill <玩家名>\n  - 删除假人');
+	print('/tagplayer killall\n  - 删除全部假人');
+	print('/tagplayer tp <玩家名> <x> <y> <z> (<仰俯> <偏转>) (atBot)\n  - 传送假人到<x>,<y>,<z>，可选<仰俯>和<偏转>角度，如以<atBot>结尾则相对坐标以假人为原点');
+	print('/tagplayer look <玩家名> <仰俯> <偏转>\n  - 转动假人视角，<x>、<y>可替换为“s”来代表你的视角方向');
+	print('/tagplayer look <玩家名> <up/down/east/west/south/north>\n  - 让假人向<上/下/东/西/南/北>方向看');
+	print('/tagplayer look <玩家名> <back/left/right>\n  - 让假人向<后/左/右>方向看');
+	print('/tagplayer move <玩家名> <backward/forward/left/right>\n  - 让假人<向前/向后/向左/向右>移动');
+	print('/tagplayer <attack/drop/dropStack/jump/swapHands/use> <玩家名> continuous\n  - 让假人持续<攻击或挖掘/丢一个物品/丢一组物品/跳跃/换手/使用物品>');
+	print('/tagplayer <attack/drop/dropStack/jump/swapHands/use> <玩家名> interval <整数>\n  - 让假人每<整数>游戏刻<攻击/丢一个物品/丢一组物品/跳跃/换手/使用物品>一次');
+	print('/tagplayer <attack/drop/dropStack/jump/swapHands/use> <玩家名> once\n  - 让假人<攻击或挖掘/丢一个物品/丢一组物品/跳跃/换手/使用物品>一次');
+	print('/tagplayer <drop/dropStack> <玩家名> <mainhand/offhand>\n  - 让假人<丢一个/丢一组><主手/副手>的物品');
+	print('/tagplayer <sneak/unsneak> <玩家名>\n  - 让假人<潜行/站立>');
+	print('/tagplayer <sprint/unsprint> <玩家名>\n  - 让假人准备<疾跑/行走>，在水中疾跑以游泳');
+	print('/tagplayer <mount/dismount> <玩家名>\n  - 让假人<乘坐/卸下>');
+	print('/tagplayer stop <玩家名>\n  - 停止假人的一切动作');
+	print('/tagplayer check <玩家名>\n  - 检查假人状态');
+	print('/tagplayer checkall\n  - 检查所有假人状态');
 	print('Version: '+global_version);
-	exit
+	return()
 );
 reload() ->(
 	run('script unload tagplayer');
 	run('script load tagplayer');
 	run('tellraw @a {"text":"tagplayer重载成功！"}');
-	exit
+	return()
 );
 summon(player_name) ->(
 	player_name = slice(player_name,0,15);
 	__check_online(player_name);
 	s_player = player();
-	run(str('player %s spawn at %f %f %f facing %f %f', player_name,
-		s_player~'x', s_player~'y', s_player~'z', query(s_player, 'yaw'), query(s_player, 'pitch'))
+	run(str('player %s spawn at %f %f %f facing %f %f', player_name, s_player~'x', s_player~'y', s_player~'z', query(s_player, 'yaw'), query(s_player, 'pitch')
+		)
 	);
-	if (!(player(player_name)),
-		exit('§4生成失败')
+	f_player = player(player_name);
+	if (!f_player,
+		print('§4生成失败');
+		return()
 	);
-	scoreboard('carpetBot', player(player_name), 1);
-	run('team join carpetBot '+ player(player_name));
-	game_tick(50);
+	__delete_all_files(f_player);
+	run('team join carpetBot '+ f_player);
 	run('tellraw @a {"text":"↑假的"}');
-	global_bot_state:player(player_name) = m();
-	exit()
+	scoreboard('carpetBot', f_player, 1);
+	return()
 );
 kill(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
-	scoreboard_remove('actimeCounter', player_name);
-	run(str('player %s kill', player_name));
+	run(str('player %s kill', f_player));
 	game_tick(50);
-	print('已清除'+player_name);
-	exit
+	run('tellraw @a {"text":"↑假的"}');
+	return()
 );
 killall() ->(
 	i = 0;
@@ -140,267 +235,310 @@ killall() ->(
 		if(one_player_str == '',
 			break()
 		);
-		if(query(player(one_player_str),'has_tag',global_tag),
+		if(scoreboard('carpetBot', one_player_str) == 1,
 			do_fake_player = 1
 		);
-		scoreboard_remove('actimeCounter', one_player_str);
-		run(str('player %s kill', one_player_str)); 
+		run(str('player %s kill', one_player_str));
 		i += 1
 	);
 	if(do_fake_player != 1,
-		exit('§4不存在假人');
-		''
+		print('§4不存在假人');
+		return()
 	);
 	game_tick(50);
-	print('已清除全部假人');
-	exit
+	run('tellraw @a {"text":"已清除全部假人"}');
+	return()
 );
 //攻击
 attack_continuous(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s attack continuous', player_name));
-	global_bot_state:player(player_name):'attack' = '1';
-	''
+	delete_file(f_player + '-' + 'attack', 'text');
+	write_file(f_player + '-' + 'attack', 'text', 0);
+	return()
 );
 attack_interval(player_name,tick) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
-	tick = __check_tick(tick);
 	run(str('player %s attack interval %d', player_name, tick));
-	global_bot_state:player(player_name):'attack' = tick;
-	''
+	delete_file(f_player + '-' + 'attack', 'text');
+	write_file(f_player + '-' + 'attack', 'text', tick);
+	return()
 );
 attack_once(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s attack once', player_name));
-	delete(global_bot_state:player(player_name):'attack');
-	''
+	delete_file(f_player + '-' + 'attack', 'text');
+	return()
 );
 attack_stop(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s attack', player_name));
-	delete(global_bot_state:player(player_name):'attack');
-	''
+	delete_file(f_player + '-' + 'attack', 'text');
+	return()
 );
 //丢弃
 drop_continuous(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s drop continuous', player_name));
-	global_bot_state:player(player_name):'drop' = '1';
-	''
+	delete_file(f_player + '-' + 'drop', 'text');
+	write_file(f_player + '-' + 'drop', 'text', 0);
+	return()
 );
 drop_interval(player_name,tick) ->(
-	__check_offline(player_name);
-	tick = __check_tick(tick);
-	run(str('player %s drop interval %d', player_name, tick));
-	global_bot_state:player(player_name):'drop' = tick;
-	''
+	f_player = player(player_name);
+	__check_offline(player_name);	run(str('player %s drop interval %d', player_name, tick));
+	delete_file(f_player + '-' + 'drop', 'text');
+	write_file(f_player + '-' + 'drop', 'text', tick);
+	return()
 );
 drop_once(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s drop once', player_name));
-	delete(global_bot_state:player(player_name):'drop');
-	''
+	delete_file(f_player + '-' + 'drop', 'text');
+	return()
 );
 drop_stop(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s drop', player_name));
-	delete(global_bot_state:player(player_name):'drop');
-	''
+	delete_file(f_player + '-' + 'drop', 'text');
+	return()
 );
 drop_all(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s drop all', player_name));
-	''
+	return()
 );
 drop_offhand(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
-	''
+	return()
 );
 drop_mainhand(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s drop mainhand', player_name));
-	''
+	return()
 );
 //丢弃一组
 drop_stack_continuous(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s dropStack continuous', player_name));
-	global_bot_state:player(player_name):'drop_stack' = '1';
-	''
+	delete_file(f_player + '-' + 'drop_stack', 'text');
+	write_file(f_player + '-' + 'drop_stack', 'text', 0);
+	return()
 );
 drop_stack_interval(player_name,tick) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
-	tick = __check_tick(tick);
 	run(str('player %s dropStack interval %d', player_name, tick));
-	global_bot_state:player(player_name):'drop_stack' = tick;
-	''
+	delete_file(f_player + '-' + 'drop_stack', 'text');
+	write_file(f_player + '-' + 'drop_stack', 'text', tick);
+	return()
 );
 drop_stack_once(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s dropStack once', player_name));
-	delete(global_bot_state:player(player_name):'drop_stack');
-	''
+	delete(global_bot_state:f_player:'drop_stack');
+	delete_file(f_player + '-' + 'drop_stack', 'text');
+	return()
 );
 drop_stack_stop(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s dropStack', player_name));
-	delete(global_bot_state:player(player_name):'drop_stack');
-	''
+	delete_file(f_player + '-' + 'drop_stack', 'text');
+	return()
 );
 drop_stack_all(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s dropStack all', player_name));
-	''
+	return()
 );
 drop_stack_offhand(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s dropStack offhand', player_name));
-	''
+	return()
 );
 drop_stack_mainhand(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s dropStack mainhand', player_name));
-	''
+	return()
 );
 //跳跃
 jump_continuous(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s jump continuous', player_name));
-	global_bot_state:player(player_name):'jump' = '1';
-	''
+	delete_file(f_player + '-' + 'jump', 'text');
+	write_file(f_player + '-' + 'jump', 'text', 0);
+	return()
 );
 jump_interval(player_name,tick) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
-	tick = __check_tick(tick);
 	run(str('player %s jump interval %d', player_name, tick));
-	global_bot_state:player(player_name):'jump' = tick;
-	''
+	delete_file(f_player + '-' + 'jump', 'text');
+	write_file(f_player + '-' + 'jump', 'text', tick);
+	return()
 );
 jump_once(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s jump once', player_name));
-	delete(global_bot_state:player(player_name):'jump');
-	''
+	delete_file(f_player + '-' + 'jump', 'text');
+	return()
 );
 jump_stop(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s jump', player_name));
-	delete(global_bot_state:player(player_name):'jump');
-	''
+	delete_file(f_player + '-' + 'jump', 'text');
+	return()
 );
 //换手
 swap_hands_continuous(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s swapHands continuous', player_name));
-	global_bot_state:player(player_name):'swap_hands' = '1';
-	''
+	delete_file(f_player + '-' + 'swap_hands', 'text');
+	write_file(f_player + '-' + 'swap_hands', 'text', 0);
+	return()
 );
 swap_hands_interval(player_name,tick) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
-	tick = __check_tick(tick);
 	run(str('player %s swapHands interval %d', player_name, tick));
-	global_bot_state:player(player_name):'swap_hands' = tick;
-	''
+	delete_file(f_player + '-' + 'swap_hands', 'text');
+	write_file(f_player + '-' + 'swap_hands', 'text', tick);
+	return()
 );
 swap_hands_once(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s swapHands once', player_name));
-	delete(global_bot_state:player(player_name):'swap_hands');
-	''
+	delete_file(f_player + '-' + 'swap_hands', 'text');
+	return()
 );
 swap_hands_stop(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s swapHands', player_name));
-	delete(global_bot_state:player(player_name):'swap_hands');
-	''
+	delete_file(f_player + '-' + 'swap_hands', 'text');
+	return()
 );
 //右键
 use_continuous(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s use continuous', player_name));
-	global_bot_state:player(player_name):'use' = '1';
-	''
+	delete_file(f_player + '-' + 'use', 'text');
+	write_file(f_player + '-' + 'use', 'text', 0);
+	return()
 );
 use_interval(player_name,tick) ->(
-	__check_offline(player_name);
-	tick = __check_tick(tick);
-	run(str('player %s use interval %d', player_name, tick));
-	global_bot_state:player(player_name):'use' = tick;
-	''
+	f_player = player(player_name);
+	__check_offline(player_name);	run(str('player %s use interval %d', player_name, tick));
+	delete_file(f_player + '-' + 'use', 'text');
+	write_file(f_player + '-' + 'use', 'text', tick);
+	return()
 );
 use_once(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s use once', player_name));
-	delete(global_bot_state:player(player_name):'use');
-	''
+	delete_file(f_player + '-' + 'use', 'text');
+	return()
 );
 use_stop(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s use', player_name));
-	delete(global_bot_state:player(player_name):'use');
-	''
+	delete_file(f_player + '-' + 'use', 'text');
+	return()
 );
 //骑乘
 mount(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s mount', player_name));
-	''
+	return()
 );
 dismount(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s dismount', player_name));
-	''
+	return()
 );
 //冲刺
 sprint(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s sprint', player_name));
-	''
+	write_file(f_player + '-' + 'sprint', 'text', tick);
+	return()
 );
 unsprint(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s unsprint', player_name));
-	''
+	delete_file(f_player + '-' + 'sprint', 'text');
+	return()
 );
 //下蹲
 sneak(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s sneak', player_name));
-	''
+	write_file(f_player + '-' + 'sneak', 'text', tick);
+	return()
 );
 unsneak(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s unsneak', player_name));
-	''
+	delete_file(f_player + '-' + 'sneak', 'text');
+	return()
 );
 //转向
 turn_back(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s turn back', player_name));
-	''
+	return()
 );
 turn_left(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s turn left', player_name));
-	''
+	return()
 );
 turn_right(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s turn right', player_name));
-	''
+	return()
 );
 //看向
-look(player_name,x,y) ->(
+look(player_name,rotation) ->(
+	print(rotation);
+	f_player = player(player_name);
 	__check_offline(player_name);
 	s_player = player();
-	if(x == 's',
-		x = s_player~'yaw';
-	);
-	if(y == 's',
-		y = s_player~'pitch'
-	);
-	x = __check_pos(x);
-	y = __check_pos(y);
+	x = (rotation:1)%360;
+	y = (rotation:0)%180;
 	if(x > 180,
 		x = x - 360
 	);
@@ -416,137 +554,208 @@ look(player_name,x,y) ->(
 	modify(player(player_name), 'yaw', x);
 	modify(player(player_name), 'pitch', y);
 	print(str('已将'+player_name+'的视角指向§a[%.1f,%.1f]',x,y));
-	''
+	return()
 );
 look_up(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s look up', player_name));
-	''
+	return()
 );
 look_down(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s look down', player_name));
-	''
+	return()
 );
 look_east(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s look east', player_name));
-	''
+	return()
 );
 look_north(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s look north', player_name));
-	''
+	return()
 );
 look_south(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s look south', player_name));
-	''
+	return()
 );
 look_west(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s look west', player_name));
-	''
+	return()
+);
+look_pos(player_name, position) ->(
+	f_player = player(player_name);
+	__check_offline(player_name);
+	run(str('player %s look at %f %f %f', player_name, position:0, position:1, position:2));
+	return()
 );
 //移动
 move_backward(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s move backward', player_name));
-	global_bot_state:player(player_name):'move_vertical' = 'backward';
-	''
+	delete_file(f_player + '-' + 'move_vertical', 'text');
+	write_file(f_player + '-' + 'move_vertical', 'text', 'backward');
+	return()
 );
 move_forward(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s move forward', player_name));
-	global_bot_state:player(player_name):'move_vertical' = 'forward';
-	''
+	delete_file(f_player + '-' + 'move_vertical', 'text');
+	write_file(f_player + '-' + 'move_vertical', 'text', 'forward');
+	return()
 );
 move_left(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s move left', player_name));
-	global_bot_state:player(player_name):'move_transverse' = 'left';
-	''
+	delete_file(f_player + '-' + 'move_transverse', 'text');
+	write_file(f_player + '-' + 'move_transverse', 'text', 'left');
+	return()
 );
 move_right(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s move right', player_name));
-	global_bot_state:player(player_name):'move_transverse' = 'right';
-	''
+	delete_file(f_player + '-' + 'move_transverse', 'text');
+	write_file(f_player + '-' + 'move_transverse', 'text', 'right');
+	return()
 );
 move_stop(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s move', player_name));
-	delete(global_bot_state:player(player_name):'move');
-	''
+	delete_file(f_player + '-' + 'move_vertical', 'text');
+	delete_file(f_player + '-' + 'move_transverse', 'text');
+	return()
 );
 //停止
 stop(player_name) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	run(str('player %s stop', player_name));
-	''
+	__delete_all_files(f_player);
+	return()
 );
 //传送
-tp(player_name,x,y,z) ->(
+tp(player_name, position) ->(
+	f_player = player(player_name);
+	__check_offline(player_name);
+	s_player = player();
+	x = position:0;
+	y = position:1;
+	if(y>4096 || y<-4096,
+		print('§4y值不能超过±4096！');
+		return()
+	);
+	z = position:2;
+	print(s_player~'yaw'+'|'+s_player~'pitch');
+	run(str('tp %s %f %f %f %f %f', f_player, x, y, z, s_player~'yaw', s_player~'pitch'));
+	print(str('已将'+player_name+'传送至§a[%.2f,%.2f,%.2f]',x,y,z));
+	return()
+);
+tp_with_rotation(player_name, position, rotation) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	s_player = player();
 	f_player = player(player_name);
-	if(x == 's',
-		__check_dim(s_player,f_player);
-		x = s_player~'x'
+	x = position:0;
+	y = position:1;
+	if(y>4096 || y<-4096,
+		print('§4y值不能超过±4096！');
+		return()
 	);
-	if(y == 's',
-		__check_dim(s_player,f_player);
-		y = s_player~'y'
+	z = position:2;
+	yaw = (rotation:1)%360;
+	pitch = (rotation:0)%180;
+	if(yaw > 180,
+		yaw = yaw - 360
 	);
-	if(z == 's',
-		__check_dim(s_player,f_player);
-		z = s_player~'z'
+	if(yaw < -180,
+		yaw = yaw + 360
 	);
-	x = __check_pos(x);
-	y = __check_pos(y);
-	if(y>4096,
-		exit('§4y值不能超过4096！');
-		''
+	if(pitch > 90,
+		pitch = pitch - 180
 	);
-	z = __check_pos(z);
-	modify(f_player,'pos',x,y,z);
+	if(pitch < -90,
+		pitch = pitch + 180
+	);
+	run(str('tp %s %f %f %f %f %f', f_player, x, y, z, yaw, pitch));
 	print(str('已将'+player_name+'传送至§a[%.2f,%.2f,%.2f]',x,y,z));
-	''
+	return()
 );
-tp_at_player(player_name,x,y,z) ->(
+tp_to_player(player_name, target_name) ->(
+	f_player = player(player_name);
+	__check_offline(player_name);
+	s_player = player(target_name);
+	if (!s_player,
+		print('§4玩家未在线');
+		return()
+	);
+	run(str('tp %s %s', f_player, s_player));
+	print(str('已将'+player_name+'传送至'+s_player));
+	return()
+);
+tp_at_bot(player_name, position) ->(
+	f_player = player(player_name);
+	__check_offline(player_name);
+	s_player = player();
+	x = position:0;
+	y = position:1;
+	if(y>4096 || y<-4096,
+		print('§4y值不能超过±4096！');
+		return()
+	);
+	z = position:2;
+	print(s_player~'yaw'+'|'+s_player~'pitch');
+	run(str('execute at %s run tp %s %f %f %f', f_player, x, y, z));
+	print(str('已将'+player_name+'传送至§a[%.2f,%.2f,%.2f]',x,y,z));
+	return()
+);
+tp_at_bot_with_rotation(player_name, position, rotation) ->(
+	f_player = player(player_name);
 	__check_offline(player_name);
 	s_player = player();
 	f_player = player(player_name);
-	__check_dim(s_player,f_player);
-	x = s_player~'x'+__check_pos(x);
-	y = s_player~'y'+__check_pos(y);
-	if(y>4096,
-		exit('§4y值不能超过4096！');
-		''
+	x = position:0;
+	y = position:1;
+	if(y>4096 || y<-4096,
+		print('§4y值不能超过±4096！');
+		return()
 	);
-	z = s_player~'z'+__check_pos(z);
-	modify(f_player,'pos',x,y,z);
-	print(str('已将'+player_name+'传送至§a[%.2f,%.2f,%.2f]',x,y,z));
-	''
-);
-tp_at_bot(player_name,x,y,z) ->(
-	__check_offline(player_name);
-	f_player = player(player_name);
-	x = f_player~'x'+__check_pos(x);
-	y = f_player~'y'+__check_pos(y);
-	if(y>4096,
-		exit('§4y值不能超过4096！');
-		''
+	z = position:2;
+	yaw = (rotation:1)%360;
+	pitch = (rotation:0)%180;
+	if(yaw > 180,
+		yaw = yaw - 360
 	);
-	z = f_player~'z'+__check_pos(z);
-	modify(f_player,'pos',x,y,z);
+	if(yaw < -180,
+		yaw = yaw + 360
+	);
+	if(pitch > 90,
+		pitch = pitch - 180
+	);
+	if(pitch < -90,
+		pitch = pitch + 180
+	);
+	run(str('execute at %s run tp %s %f %f %f %f %f', f_player, f_player, x, y, z, yaw, pitch));
 	print(str('已将'+player_name+'传送至§a[%.2f,%.2f,%.2f]',x,y,z));
-	''
+	return()
 );
 //状态检查
 check(player_name) ->(
-	__check_offline(player_name);
 	f_player = player(player_name);
+	__check_offline(player_name);
 	print('假人“'+f_player+'”：');
 	//血量
 	inner_health = number(str('%d',query(f_player,'health')+0.9));
@@ -628,168 +837,292 @@ check(player_name) ->(
 	inner_sneak = query(f_player,'sneaking');
 	inner_sprint = query(f_player,'sprinting');
 	inner_swim = query(f_player,'swimming');
-	if(f_state == m() && inner_sneak == false && inner_sprint == false,
-		print('- 无动作');
-		''
-	);
-	if(f_state != m() || inner_sneak == true || inner_sprint == true,
-		//攻击/挖掘
-		if(f_state:'attack' != null,
-			if(f_state:'attack' == 1,
-				print('- 正在疯狂输出（然并卵）或挖掘')
-			);
-			if(f_state:'attack' > 1,
-				inner_sec = f_state:'attack'/20;
-				print('- 每'+f_state:'attack'+'游戏刻（'+inner_sec+'游戏秒）尝试攻击一次')
-			)
+//***************************************************
+	noAct = true;
+	//攻击/挖掘
+	inner_attack = read_file(f_player + '-' + 'attack', 'text'):0;
+	if(inner_attack != null,
+		if(inner_attack == 0,
+			print('- 正在挖掘');
+			noAct = false
 		);
-		//扔东西
-		if(f_state:'drop' != null,
-			inner_sec = f_state:'drop'/20;
-			print('- 每'+f_state:'drop'+'游戏刻（'+inner_sec+'游戏秒）扔1个物品')
-		);
-		if(f_state:'drop_stack' != null,
-			inner_sec = f_state:'drop_stack'/20;
-			print('- 每'+f_state:'drop_stack'+'游戏刻（'+inner_sec+'游戏秒）扔1组物品')
-		);
-		//跳跃
-		if(f_state:'jump' != null,
-			if(f_state:'jump' == 1,
-				print('- 正在持续跳跃')
-			);
-			if(f_state:'jump' > 1,
-				inner_sec = f_state:'jump'/20;
-				print('- 每'+f_state:'jump'+'游戏刻（'+inner_sec+'游戏秒）尝试跳跃一次')
-			)
-		);
-		//换手
-		if(f_state:'swap_hands' != null,
-			inner_sec = f_state:'swap_hands'/20;
-			print('- 每'+f_state:'swap_hands'+'游戏刻（'+inner_sec+'游戏秒）交换一次左右手的物品')
-		);
-		//使用物品
-		if(f_state:'use' != null,
-			if(f_state:'use' == 1,
-				print('- 正在持续使♂用物品')
-			);
-			if(f_state:'use' > 1,
-				inner_sec = f_state:'use'/20;
-				print('- 每'+f_state:'use'+'游戏刻（'+inner_sec+'游戏秒）尝试使用一次物♂品')
-			)
-		);
-		//移动**********************************重点*********************************
-		if(f_state:'move_vertical' != null || f_state:'move_transverse' != null,
-			if(inner_sneak == true,
-				if(f_state:'move_vertical' == 'forward',
-					if(f_state:'move_transverse' == 'right',
-						print('- 正在向右前方潜行↗')
-					);
-					if(f_state:'move_transverse' == 'left',
-						print('- 正在向左前方潜行↖')
-					);
-					if(f_state:'move_transverse' == null,
-						print('- 正在向前潜行↑');
-					)
-				);
-				if(f_state:'move_vertical' == 'backward',
-					if(f_state:'move_transverse' == 'right',
-						print('- 正在向右后方潜行↘')
-					);
-					if(f_state:'move_transverse' == 'left',
-						print('- 正在向左后方潜行↙')
-					);
-					if(f_state:'move_transverse' == null,
-						print('- 正在向后潜行↓');
-					)
-				)
-			);
-			if(inner_sprint == true,
-				if(inner_swim == true,
-					if(f_state:'move_vertical' == 'forward',
-						if(f_state:'move_transverse' == 'right',
-							print('- 正在向右前方游泳↗')
-						);
-						if(f_state:'move_transverse' == 'left',
-							print('- 正在向左前方游泳↖')
-						);
-						if(f_state:'move_transverse' == null,
-							print('- 正在向前游泳↑');
-						)
-					);
-					if(f_state:'move_vertical' == 'backward',
-						if(f_state:'move_transverse' == 'right',
-							print('- 正在向右后方游泳↘')
-						);
-						if(f_state:'move_transverse' == 'left',
-							print('- 正在向左后方游泳↙')
-						);
-						if(f_state:'move_transverse' == null,
-							print('- 正在向后游泳↓');
-						)
-					)
-				);
-				if(inner_swim == false,
-					if(f_state:'move_vertical' == 'forward',
-						if(f_state:'move_transverse' == 'right',
-							print('- 正在向右前方疾跑↗')
-						);
-						if(f_state:'move_transverse' == 'left',
-							print('- 正在向左前方疾跑↖')
-						);
-						if(f_state:'move_transverse' == null,
-							print('- 正在向前疾跑↑');
-						)
-					);
-					if(f_state:'move_vertical' == 'backward',
-						if(f_state:'move_transverse' == 'right',
-							print('- 正在向右后方疾跑↘§e（没错它可以开挂）')
-						);
-						if(f_state:'move_transverse' == 'left',
-							print('- 正在向左后方疾跑↙§e（没错它可以开挂）')
-						);
-						if(f_state:'move_transverse' == null,
-							print('- 正在向后疾跑↓§e（没错它可以开挂）');
-						)
-					)
-				);
-				
-			);
-			if(inner_sprint == false && inner_sneak == false,
-				if(f_state:'move_vertical' == 'forward',
-					if(f_state:'move_transverse' == 'right',
-						print('- 正在向右前方走↗')
-					);
-					if(f_state:'move_transverse' == 'left',
-						print('- 正在向左前方走↖')
-					);
-					if(f_state:'move_transverse' == null,
-						print('- 正在向前走↑');
-					)
-				);
-				if(f_state:'move_vertical' == 'backward',
-					if(f_state:'move_transverse' == 'right',
-						print('- 正在向右后方走↘')
-					);
-					if(f_state:'move_transverse' == 'left',
-						print('- 正在向左后方走↙')
-					);
-					if(f_state:'move_transverse' == null,
-						print('- 正在向后走↓');
-					)
-				);
-			)
-		);
-		if(f_state:'move_vertical' == null && f_state:'move_transverse' == null && inner_sneak == true,
-			print('- 正在潜行')
-		);
-		if(f_state:'move_vertical' == null && f_state:'move_transverse' == null && inner_sprint == true && inner_swim == false,
-			print('- 正在原地疾跑')
-		);
-		if(f_state:'move_vertical' == null && f_state:'move_transverse' == null && inner_swim == true,
-			print('- 正在原地游泳')
+		if(inner_attack > 0,
+			inner_sec = inner_attack/20;
+			print('- 每' + inner_attack + '游戏刻（' + inner_sec + '游戏秒）尝试攻击一次');
+			noAct = false
 		)
 	);
-	''
+	//扔东西
+	inner_drop = read_file(f_player + '-' + 'drop', 'text'):0;
+	if(inner_drop != null,
+		if(inner_drop == 0,
+			print('- 正在持续每次扔一个物品');
+			noAct = false
+		);
+		if(inner_drop > 0,
+			inner_sec = inner_drop/20;
+			print('- 每' + inner_drop + '游戏刻（' + inner_sec + '游戏秒）扔1个物品');
+			noAct = false
+		)
+	);
+	inner_drop_stack = read_file(f_player + '-' + 'drop_stack', 'text'):0;
+	if(inner_drop_stack != null,
+		if(inner_drop_stack == 0,
+			print('- 正在持续每次扔一组物品');
+			noAct = false
+		);
+		if(inner_drop > 0,
+			inner_sec = inner_drop_stack/20;
+			print('- 每' + inner_drop_stack + '游戏刻（' + inner_sec + '游戏秒）扔1个物品');
+			noAct = false
+		)
+	);
+	//跳跃
+	inner_jump = read_file(f_player + '-' + 'jump', 'text'):0;
+	if(inner_jump != null,
+		if(inner_jump == 0,
+			print('- 正在持续跳跃');
+			noAct = false
+		);
+		if(inner_jump > 0,
+			inner_sec = inner_jump/20;
+			print('- 每' + inner_jump + '游戏刻（' + inner_sec + '游戏秒）尝试跳跃一次');
+			noAct = false
+		)
+	);
+	//换手
+	inner_swap_hands = read_file(f_player + '-' + 'swap_hands', 'text'):0;
+	if(inner_swap_hands != null,
+		if(inner_swap_hands == 0,
+			print('- 正在持续交换左右手的物品');
+			noAct = false
+		);
+		if(inner_swap_hands > 0,
+			inner_sec = inner_swap_hands/20;
+			print('- 每' + inner_swap_hands + '游戏刻（' + inner_sec + '游戏秒）交换一次左右手的物品');
+			noAct = false
+		)
+	);
+	//使用物品
+	inner_use = read_file(f_player + '-' + 'use', 'text'):0;
+	if(inner_use != null,
+		if(inner_use == 0,
+			print('- 正在持续使♂用物品');
+			noAct = false
+		);
+		if(inner_use > 0,
+			inner_sec = inner_use/20;
+			print('- 每' + inner_use + '游戏刻（' + inner_sec + '游戏秒）尝试使用一次物♂品');
+			noAct = false
+		)
+	);
+	//移动**********************************重点*********************************
+	inner_move_vertical = read_file(f_player + '-' + 'move_vertical', 'text'):0;
+	inner_move_transverse = read_file(f_player + '-' + 'move_transverse', 'text'):0;
+	if(inner_sneak == true,
+		if(inner_move_vertical == 'forward',
+			if(inner_move_transverse == 'right',
+				print('- 正在向右前方潜行↗');
+				noAct = false
+			);
+			if(inner_move_transverse == 'left',
+				print('- 正在向左前方潜行↖');
+				noAct = false
+			);
+			if(inner_move_transverse == null,
+				print('- 正在向前潜行↑');
+				noAct = false
+			)
+		);
+		if(inner_move_vertical == 'backward',
+			if(inner_move_transverse == 'right',
+				print('- 正在向右后方潜行↘');
+				noAct = false
+			);
+			if(inner_move_transverse == 'left',
+				print('- 正在向左后方潜行↙');
+				noAct = false
+			);
+			if(inner_move_transverse == null,
+				print('- 正在向后潜行↓');
+				noAct = false
+			)
+		);
+		if(inner_move_vertical == null,
+			if(inner_move_transverse == 'right',
+				print('- 正在向右潜行→');
+				noAct = false
+			);
+			if(inner_move_transverse == 'left',
+				print('- 正在向左潜行←');
+				noAct = false
+			);
+			if(inner_move_transverse == null,
+				print('- 正在潜伏');
+				noAct = false
+			)
+		)
+	);
+	if(inner_sprint == true,
+		if(inner_swim == true,
+			if(inner_move_vertical == 'forward',
+				if(inner_move_transverse == 'right',
+					print('- 正在向右前方游泳↗');
+					noAct = false
+				);
+				if(inner_move_transverse == 'left',
+					print('- 正在向左前方游泳↖');
+					noAct = false
+				);
+				if(inner_move_transverse == null,
+					print('- 正在向前游泳↑');
+					noAct = false
+				)
+			);
+			if(inner_move_vertical == 'backward',
+				if(inner_move_transverse == 'right',
+					print('- 正在向右后方游泳↘§e（没错它可以开挂）');
+					noAct = false
+				);
+				if(inner_move_transverse == 'left',
+					print('- 正在向左后方游泳↙§e（没错它可以开挂）');
+					noAct = false
+				);
+				if(inner_move_transverse == null,
+					print('- 正在向后游泳↓§e（没错它可以开挂）');
+					noAct = false
+				)
+			);
+			if(inner_move_vertical == null,
+				if(inner_move_transverse == 'right',
+					print('- 正在向右游泳→§e（没错它可以开挂）');
+					noAct = false
+				);
+				if(inner_move_transverse == 'left',
+					print('- 正在向左游泳←§e（没错它可以开挂）');
+					noAct = false
+				);
+				if(inner_move_transverse == null,
+					print('- 正在原地游泳↓§e（没错它可以开挂）');
+					noAct = false
+				)
+			)
+		);
+		if(inner_swim == false,
+			if(inner_move_vertical == 'forward',
+				if(inner_move_transverse == 'right',
+					print('- 正在向右前方疾跑↗');
+					noAct = false
+				);
+				if(inner_move_transverse == 'left',
+					print('- 正在向左前方疾跑↖');
+					noAct = false
+				);
+				if(inner_move_transverse == null,
+					print('- 正在向前疾跑↑');
+					noAct = false
+				)
+			);
+			if(inner_move_vertical == 'backward',
+				if(inner_move_transverse == 'right',
+					print('- 正在向右后方疾跑↘§e（没错它可以开挂）');
+					noAct = false
+				);
+				if(inner_move_transverse == 'left',
+					print('- 正在向左后方疾跑↙§e（没错它可以开挂）');
+					noAct = false
+				);
+				if(inner_move_transverse == null,
+					print('- 正在向后疾跑↓§e（没错它可以开挂）');
+					noAct = false
+				)
+			);
+			if(inner_move_vertical == null,
+				if(inner_move_transverse == 'right',
+					print('- 正在向右疾跑→§e（没错它可以开挂）');
+					noAct = false
+				);
+				if(inner_move_transverse == 'left',
+					print('- 正在向左疾跑←§e（没错它可以开挂）');
+					noAct = false
+				);
+				if(inner_move_transverse == null,
+					print('- 正在原地疾跑，§e（没错它可以开挂）');
+					noAct = false
+				)
+			)
+		);	
+	);
+	if(inner_sprint == false && inner_sneak == false,
+		if(inner_move_vertical == 'forward',
+			if(inner_move_transverse == 'right',
+				print('- 正在向右前方走↗');
+				noAct = false
+			);
+			if(inner_move_transverse == 'left',
+				print('- 正在向左前方走↖');
+				noAct = false
+			);
+			if(inner_move_transverse == null,
+				print('- 正在向前走↑');
+				noAct = false
+			)
+		);
+		if(inner_move_vertical == 'backward',
+			if(inner_move_transverse == 'right',
+				print('- 正在向右后方走↘');
+				noAct = false
+			);
+			if(inner_move_transverse == 'left',
+				print('- 正在向左后方走↙');
+				noAct = false
+			);
+			if(inner_move_transverse == null,
+				print('- 正在向后走↓');
+				noAct = false
+			)
+		);
+		if(inner_move_vertical == null,
+			if(inner_move_transverse == 'right',
+				print('- 正在向右走→');
+				noAct = false
+			);
+			if(inner_move_transverse == 'left',
+				print('- 正在向左走←');
+				noAct = false
+			)
+		)
+	);
+	//乘坐
+	inner_mount = f_player~'mount';
+	if(inner_mount != null,
+		if(inner_mount == 'horse',
+			print('- 正在骑马')
+		);
+		if(inner_mount == 'donkey',
+			print('- 正在骑驴')
+		);
+		if(inner_mount == 'mule',
+			print('- 正在骑骡')
+		);
+		if(inner_mount == 'trader_llama',
+			print('- 正在骑羊驼')
+		);
+		if(inner_mount == 'pig',
+			print('- 正在骑猪')
+		);
+		if(inner_mount == 'skeleton_horse',
+			print('- 正在骑骷髅马')
+		);
+		if(inner_mount == 'zombie_horse',
+			print('- 正在骑僵尸马')
+		);
+		noAct = false
+	);
+	if(noAct == true,
+		print('- 无动作')
+	);
+	return()
 );
 checkall() ->(
 	i = 0;
@@ -799,7 +1132,7 @@ checkall() ->(
 		if(one_player_str == '',
 			break()
 		);
-		if(query(player(one_player_str),'has_tag',global_tag),
+		if(scoreboard('carpetBot', one_player_str) == 1,
 			check(one_player_str);
 			do_fake_player = 1
 		);
@@ -808,5 +1141,5 @@ checkall() ->(
 	if(do_fake_player != 1,
 		print('§4当前无假人')
 	);
-	''
+	return()
 );
