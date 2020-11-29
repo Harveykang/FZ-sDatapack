@@ -1,5 +1,3 @@
-# 注：由于我的git客户端一直连接超时。。所以上面的源码*不是*最新的，请直接从release里下载最新的预览版
-
 # FZ-sDataPack
 A Minecraft Datapack
 #### @Author: Harveykang
