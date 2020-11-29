@@ -12,5 +12,5 @@ A Minecraft Datapack
 - tagplayer.sc包含在压缩包中啦，把它放在world/scripts中然后“/reload”！
   - 使用/tagplayer 命令生成假人可以避免假人被数据包提供的记分板捕捉到~
   - tagplayer需要地毯mod1.4.15或以上版本来运行
-##### - v2.0.0.3
+- v2.0.0.3
   - 优化了tagplayer体验及修复若干bug
