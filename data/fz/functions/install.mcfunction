@@ -15,8 +15,8 @@ function fz:login/logintips/install
 function fz:carpet/carpet
 #版本信息
 data merge storage fz.installed {installed:1b}
-data merge storage fz {version:Alpha-2.0.0.2}
-data merge storage fz {date:2020-11.26}
-data merge storage fz {time:"23:51"}
+data merge storage fz {version:Alpha-2.0.0.3}
+data merge storage fz {date:2020-11.27}
+data merge storage fz {time:"22:18"}
 data merge storage fz {snapshot:-SNAPSHOT}
 ##data remove storage fz snapshot
