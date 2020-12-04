@@ -11,5 +11,5 @@ schedule clear fz:sweeper/timer/1min
 schedule clear fz:sweeper/timer/2min
 schedule clear fz:sweeper/timer/3min
 schedule clear fz:sweeper/timer/4min
-tellraw @a {"text": "扫地机已关闭"}
+tellraw @a {"text": "[信息]扫地机已关闭","color": "#5fff00"}
 execute as @a at @a run playsound minecraft:block.note_block.pling voice @s ~ ~ ~ 1 2

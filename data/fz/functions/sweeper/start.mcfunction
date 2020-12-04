@@ -10,4 +10,4 @@ schedule clear fz:sweeper/timer/2min
 schedule clear fz:sweeper/timer/3min
 schedule clear fz:sweeper/timer/4min
 
-tellraw @a {"text": "扫地机ok"}
+tellraw @a {"text": "[信息]扫地机已启用","color": "#5fff00"}

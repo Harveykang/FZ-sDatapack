@@ -12,3 +12,5 @@ schedule clear fz:sweeper/timer/3min
 schedule clear fz:sweeper/timer/4min
 
 data merge storage fz.installed {sweeper:0b}
+#提示已卸载
+tellraw @a {"text": "[信息]扫地机已卸载","color": "#5fff00"}

@@ -1,4 +1,4 @@
-execute if data storage fz.installed {logintips:1b} run tellraw @s {"text": "提示：站在地面，抬头并按一下shift即可打开设置页面"}
+execute if data storage fz.installed {logintips:1b} run tellraw @s {"text": "[提醒]站在地面，抬头并按一下shift即可打开设置页面","color": "#d7ff00"}
 
 scoreboard players set @s leaveGame 0
 

@@ -7,3 +7,5 @@ scoreboard objectives remove fishingCounter
 scoreboard objectives remove damageTaken
 scoreboard objectives remove activation
 scoreboard objectives remove totalList
+#提示已删除
+tellraw @a {"text": "[信息]计分板数据已删除","color": "#5fff00"}
