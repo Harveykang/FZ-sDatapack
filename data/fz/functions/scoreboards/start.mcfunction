@@ -10,4 +10,4 @@ advancement revoke @a only fz:scoreboards/tradingcounter
 advancement revoke @a only fz:scoreboards/digcounter/digtrigger
 advancement revoke @a only fz:scoreboards/digcounter/toolsfix
 
-tellraw @a {"text": "记分板ok"}
+tellraw @a {"text": "[信息]记分板已启用","color": "#5fff00"}

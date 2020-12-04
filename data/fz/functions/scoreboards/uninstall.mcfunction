@@ -49,6 +49,8 @@ scoreboard objectives setdisplay sidebar.team.light_purple
 scoreboard objectives setdisplay sidebar.team.green
 scoreboard objectives setdisplay sidebar.team.gold
 
-tellraw @s [{"text": "您要删除计分板数据吗，它将会永久失去！(真的很久！)", "color": "red"},{"text": "[确定]","clickEvent": {"action": "run_command", "value": "/function fz:scoreboards/delscore"}, "color": "green"}]
+#提示已卸载
+tellraw @a {"text": "[信息]记分板已卸载","color": "#5fff00"}
+tellraw @s [{"text": "[警告]您要删除计分板数据吗，它将会永久失去！(真的很久！)", "color": "#ffd900"},{"text": "[确定]","clickEvent": {"action": "run_command", "value": "/function fz:scoreboards/delscore"}, "color": "#00ff00"}]
 
 data merge storage fz.installed {scoreboards:0b}

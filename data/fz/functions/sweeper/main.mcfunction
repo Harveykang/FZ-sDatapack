@@ -1,6 +1,6 @@
 execute if score sweepMinecart parameter matches 1 run execute store result score sweeperItem parameter run kill @e[type=item]
 execute unless score sweepMinecart parameter matches 1 run execute store result score sweeperItem parameter run kill @e[type=item,predicate=!fz:sweeper/minecart]
-tellraw @a [{"text": "本次清理了"},{"score": {"objective": "parameter", "name": "sweeperItem"}},{"text": "堆物品"}]
+tellraw @a [{"text": "[信息]本次清理了","color": "#5fff00"},{"score": {"objective": "parameter", "name": "sweeperItem"},"color": "#5fff00"},{"text": "堆物品","color": "#5fff00"}]
 execute as @a at @a run playsound minecraft:block.note_block.pling voice @s ~ ~ ~ 1 2
 execute if score sweeperTime parameter matches 30 run function fz:sweeper/timer/30s
 execute if score sweeperTime parameter matches 60 run function fz:sweeper/timer/1min
