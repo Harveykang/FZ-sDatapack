@@ -27,6 +27,7 @@ scoreboard objectives add digCounter dummy
     scoreboard objectives add usedNetPickaxe minecraft.used:minecraft.netherite_pickaxe
     scoreboard objectives add usedNetShovel minecraft.used:minecraft.netherite_shovel
     scoreboard objectives add usedNetHoe minecraft.used:minecraft.netherite_hoe
+    scoreboard objectives add usedShears minecraft.used:minecraft.shears
 scoreboard objectives add deathCounter dummy
     scoreboard objectives add deathTester deathCount
 scoreboard objectives add tradingCounter dummy

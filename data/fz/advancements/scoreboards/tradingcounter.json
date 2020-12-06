@@ -11,8 +11,8 @@
                             "entity": "this",
                             "scores": {
                                 "carpetBot": {
-                                    "max":1,
-                                    "min":1
+                                    "max": 1,
+                                    "min": 1
                                 }
                             }
                         }

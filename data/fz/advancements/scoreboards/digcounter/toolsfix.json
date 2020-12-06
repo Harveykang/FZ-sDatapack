@@ -13,57 +13,62 @@
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:diamond_axe"
+                                            "item": "minecraft:diamond_axe"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:iron_axe"
+                                            "item": "minecraft:iron_axe"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:stone_axe"
+                                            "item": "minecraft:stone_axe"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:wooden_axe"
+                                            "item": "minecraft:wooden_axe"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:golden_axe"
+                                            "item": "minecraft:golden_axe"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:netherite_axe"
+                                            "item": "minecraft:netherite_axe"
                                         }
                                     }
                                 }
@@ -86,57 +91,62 @@
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:diamond_axe"
+                                            "item": "minecraft:diamond_axe"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:iron_axe"
+                                            "item": "minecraft:iron_axe"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:stone_axe"
+                                            "item": "minecraft:stone_axe"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:wooden_axe"
+                                            "item": "minecraft:wooden_axe"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:golden_axe"
+                                            "item": "minecraft:golden_axe"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:netherite_axe"
+                                            "item": "minecraft:netherite_axe"
                                         }
                                     }
                                 }
@@ -145,7 +155,8 @@
                     }
                 ]
             }
-        },"used_shovel_on_block": {
+        },
+        "used_shovel_on_block": {
             "trigger": "minecraft:item_used_on_block",
             "conditions": {
                 "player": [
@@ -158,57 +169,62 @@
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:diamond_shovel"
+                                            "item": "minecraft:diamond_shovel"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:iron_shovel"
+                                            "item": "minecraft:iron_shovel"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:stone_shovel"
+                                            "item": "minecraft:stone_shovel"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:wooden_shovel"
+                                            "item": "minecraft:wooden_shovel"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:golden_shovel"
+                                            "item": "minecraft:golden_shovel"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:netherite_shovel"
+                                            "item": "minecraft:netherite_shovel"
                                         }
                                     }
                                 }
@@ -231,57 +247,62 @@
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:diamond_shovel"
+                                            "item": "minecraft:diamond_shovel"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:iron_shovel"
+                                            "item": "minecraft:iron_shovel"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:stone_shovel"
+                                            "item": "minecraft:stone_shovel"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:wooden_shovel"
+                                            "item": "minecraft:wooden_shovel"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:golden_shovel"
+                                            "item": "minecraft:golden_shovel"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:netherite_shovel"
+                                            "item": "minecraft:netherite_shovel"
                                         }
                                     }
                                 }
@@ -290,7 +311,8 @@
                     }
                 ]
             }
-        },"used_hoe_on_block": {
+        },
+        "used_hoe_on_block": {
             "trigger": "minecraft:item_used_on_block",
             "conditions": {
                 "player": [
@@ -303,57 +325,62 @@
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:diamond_hoe"
+                                            "item": "minecraft:diamond_hoe"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:iron_hoe"
+                                            "item": "minecraft:iron_hoe"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:stone_hoe"
+                                            "item": "minecraft:stone_hoe"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:wooden_hoe"
+                                            "item": "minecraft:wooden_hoe"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:golden_hoe"
+                                            "item": "minecraft:golden_hoe"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:netherite_hoe"
+                                            "item": "minecraft:netherite_hoe"
                                         }
                                     }
                                 }
@@ -376,57 +403,62 @@
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:diamond_hoe"
+                                            "item": "minecraft:diamond_hoe"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:iron_hoe"
+                                            "item": "minecraft:iron_hoe"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:stone_hoe"
+                                            "item": "minecraft:stone_hoe"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:wooden_hoe"
+                                            "item": "minecraft:wooden_hoe"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:golden_hoe"
+                                            "item": "minecraft:golden_hoe"
                                         }
                                     }
                                 }
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_properties",
                                 "entity": "this",
                                 "predicate": {
                                     "equipment": {
                                         "mainhand": {
-                                        "item": "minecraft:netherite_hoe"
+                                            "item": "minecraft:netherite_hoe"
                                         }
                                     }
                                 }

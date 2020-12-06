@@ -1,3 +1,4 @@
+
 #用于储存参数的记分板
 scoreboard objectives add parameter dummy
 #用于数学计算的记分板
@@ -15,11 +16,12 @@ function fz:login/logintips/install
 function fz:carpet/carpet
 #版本信息
 data merge storage fz.installed {installed:1b}
-data merge storage fz {version:Alpha-2.0.0.4}
-data merge storage fz {date:2020-12.25}
-data merge storage fz {time:"07:01"}
+data merge storage fz {version:Beta-2.0.0.5}
+data merge storage fz {date:2020-12.7}
+data merge storage fz {time:"04:06"}
 data merge storage fz {snapshot:-SNAPSHOT}
 ##data remove storage fz snapshot
+tellraw @a {"text": "[信息]启动完毕","color": "#5fff00"}
 #提示已安装
 tellraw @a {"text": "[信息]安装完成！","color": "#5fff00"}
 #info: #5fff00

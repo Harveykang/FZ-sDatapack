@@ -24,5 +24,6 @@ execute if score @s usedWooAxe matches 1.. run function fz:scoreboards/digcounte
 execute if score @s usedWooHoe matches 1.. run function fz:scoreboards/digcounter/tools/woohoe
 execute if score @s usedWooPickaxe matches 1.. run function fz:scoreboards/digcounter/tools/woopickaxe
 execute if score @s usedWooShovel matches 1.. run function fz:scoreboards/digcounter/tools/wooshovel
+execute if score @s usedShears matches 1.. run function fz:scoreboards/digcounter/tools/shears
 #重置探测使用工具的记分板的成就
 advancement revoke @s only fz:scoreboards/digcounter/digtrigger
