@@ -16,7 +16,8 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedWooPickaxe": {
@@ -25,7 +26,8 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedWooHoe": {
@@ -34,7 +36,8 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedWooAxe": {
@@ -43,7 +46,8 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedStoShovel": {
@@ -52,7 +56,8 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedStoPickaxe": {
@@ -61,7 +66,8 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedStoHoe": {
@@ -70,7 +76,8 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedStoAxe": {
@@ -79,7 +86,8 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedNetShovel": {
@@ -88,7 +96,8 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedNetPickaxe": {
@@ -97,7 +106,8 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedNetHoe": {
@@ -106,7 +116,8 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedNetAxe": {
@@ -115,7 +126,8 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedIroShovel": {
@@ -124,7 +136,8 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedIroPickaxe": {
@@ -133,7 +146,8 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedIroHoe": {
@@ -142,7 +156,8 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedIroAxe": {
@@ -151,7 +166,8 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedGolShovel": {
@@ -160,7 +176,8 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedGolPickaxe": {
@@ -169,7 +186,8 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedDiaHoe": {
@@ -178,7 +196,8 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedGolAxe": {
@@ -187,7 +206,8 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedDiaShovel": {
@@ -196,7 +216,8 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedDiaPickaxe": {
@@ -205,7 +226,8 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedDiaHoe": {
@@ -214,10 +236,21 @@
                                     }
                                 },
                                 "entity": "this"
-                            },{
+                            },
+                            {
                                 "condition": "minecraft:entity_scores",
                                 "scores": {
                                     "usedDiaAxe": {
+                                        "min": 1,
+                                        "max": 2147483647
+                                    }
+                                },
+                                "entity": "this"
+                            },
+                            {
+                                "condition": "minecraft:entity_scores",
+                                "scores": {
+                                    "usedShears": {
                                         "min": 1,
                                         "max": 2147483647
                                     }
