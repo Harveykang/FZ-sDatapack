@@ -2,7 +2,7 @@ global_version = '1.1.0';
 __config() -> {
 	'scope' -> 'global'
 };
-__command() -> print('版本：'global_version);
+__command() -> print('版本：' + global_version);
 global_bl = l('stone', 'granite', 'polished_granite', 'diorite', 'polished_diorite', 'andesite', 'polished_andesite', 'grass_block', 
 	'dirt', 'coarse_dirt', 'podzol', 'crimson_nylium', 'warped_nylium', 'cobblestone', 'oak_planks', 'spruce_planks', 'birch_planks', 
 	'jungle_planks', 'acacia_planks', 'dark_oak_planks', 'crimson_planks', 'warped_planks', 'sand', 'red_sand', 'gravel', 'gold_ore', 
