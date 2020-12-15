@@ -1,4 +1,4 @@
-global_version = '1.1.0'
+global_version = '1.1.0';
 __config() -> {
 	'scope' -> 'global'
 };
