@@ -135,7 +135,7 @@ __restore(pl, s_player) ->(
 		scoreboard('activation', pl:i, actime);
 		total_actime += actime;
 		//抖M榜
-		hurt = statistic(pl:i, 'custom', 'damamge_taken')/10;
+		hurt = statistic(pl:i, 'custom', 'damage_taken')/100;
 		print(hurt);
 		scoreboard('damageTaken', pl:i, hurt);
 		total_hurt += hurt;
