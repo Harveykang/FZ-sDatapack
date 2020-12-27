@@ -42,23 +42,23 @@ A Minecraft Datapack
 			- 输入“/scripts unload restore_scores”卸载工具
 			- 记得用完就删掉它！
 ##### - v2.0.0.9(计划)
-	- 添加单独的记分板升级工具
+- 添加单独的记分板升级工具
 ##### - v2.0.0.8
-	- 添加c.sc、s.sc、here.sc工具
+- 添加c.sc、s.sc、here.sc工具
 ##### - v2.0.0.7
-	- tagplayer添加了新版carpet新指令，可以为假人切换热键栏
-	- 现在tagplayer需要carpet1.4.21或以上版本运行！
-	- 现在tagplayer可以给自己设置动作了
-	- 添加“/tagplayer shadow”指令将自己变为前缀为“挂机”的假人
+- tagplayer添加了新版carpet新指令，可以为假人切换热键栏
+- 现在tagplayer需要carpet1.4.21或以上版本运行！
+- 现在tagplayer可以给自己设置动作了
+- 添加“/tagplayer shadow”指令将自己变为前缀为“挂机”的假人
 ##### - v2.0.0.6
-	- 修复restore_scores.sc工具不能恢复受伤害榜(抖M榜)的bug
+- 修复restore_scores.sc工具不能恢复受伤害榜(抖M榜)的bug
 ##### - v2.0.0.5
-	- 修复挖掘榜部分工具不起作用的bug
-	- 添加restore_scores.sc工具便于恢复或从1.0版本升级记分板
+- 修复挖掘榜部分工具不起作用的bug
+- 添加restore_scores.sc工具便于恢复或从1.0版本升级记分板
 ##### - v2.0.0.4
-	- 添加彩色字体
+- 添加彩色字体
 ##### - v2.0.0.3
-	- tagplayer需要地毯mod1.4.18或以上版本来运行
-	- 优化了tagplayer体验及修复若干bug
+- tagplayer需要地毯mod1.4.18或以上版本来运行
+- 优化了tagplayer体验及修复若干bug
 ##### - v2.0.0.2
-  - 重写
+- 重写
