@@ -1,7 +1,9 @@
+global_version = '1.1.0';
 __config() -> {
-	'scope' -> 'global'
+	'scope' -> 'global',
+	'stay_loaded' -> false
 };
-__command() -> 'root command';
+__command() -> print('版本：' + global_version);
 global_bl = l('stone', 'granite', 'polished_granite', 'diorite', 'polished_diorite', 'andesite', 'polished_andesite', 'grass_block', 
 	'dirt', 'coarse_dirt', 'podzol', 'crimson_nylium', 'warped_nylium', 'cobblestone', 'oak_planks', 'spruce_planks', 'birch_planks', 
 	'jungle_planks', 'acacia_planks', 'dark_oak_planks', 'crimson_planks', 'warped_planks', 'sand', 'red_sand', 'gravel', 'gold_ore', 
@@ -133,10 +135,10 @@ __restore(pl, s_player) ->(
 		print(actime);
 		scoreboard('activation', pl:i, actime);
 		total_actime += actime;
-		//活跃时间
-		hurt = statistic(pl:i, 'custom', 'play_one_minute')/72000;
+		//抖M榜
+		hurt = statistic(pl:i, 'custom', 'damage_taken')/100;
 		print(hurt);
-		scoreboard('activation', pl:i, hurt);
+		scoreboard('damageTaken', pl:i, hurt);
 		total_hurt += hurt;
 		//死亡榜
 		death = statistic(pl:i, 'custom', 'deaths');
@@ -181,8 +183,8 @@ __restore(pl, s_player) ->(
 	scoreboard('totalList', '全部木大', total_death);
 	scoreboard('activation', '总在线时间(h)', total_actime);
 	scoreboard('totalList', '总在线时间(h)', total_actime);
-	scoreboard('damageTaken', '群p抖m', total_hurt);
-	scoreboard('totalList', '群p抖m)', total_hurt);
+	scoreboard('damageTaken', '群p抖M', total_hurt);
+	scoreboard('totalList', '群p抖M)', total_hurt);
 	game_tick(50);
 	run('function fz:scoreboards/install')
 );

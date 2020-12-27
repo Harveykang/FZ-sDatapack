@@ -2,16 +2,20 @@
 //************请将该文件放入"world\scripts"文件夹中************
 //*************************************************************
 scoreboard_add('carpetBot');
-run('team add carpetBot');
-run('team modify carpetBot prefix "假的 "');
-global_version = '2.0.0';
+team_add('carpetBot');
+team_add('shadowedPlayer');
+team_property('carpetBot', 'prefix', '假的');
+team_property('shadowedPlayer', 'prefix', '挂机');
+global_version = '2.1.0';
+global_carpet_version = split('\\+v',system_info('scarpet_version'));
+global_filename = system_info('app_name');
 __config() -> {
 	'stay_loaded' -> true,
 	'allow_command_conflicts' -> true,
 	'commands' -> {
 		'' -> 'help',
 		'spawn <player>' -> 'summon',
-		'kill <bot>' -> 'kill',
+		'kill <killbot>' -> 'kill',
 		'killall' -> 'killall',
 		'attack <bot>' -> 'attack_once',
 		'attack <bot> continuous' -> 'attack_continuous',
@@ -66,16 +70,39 @@ __config() -> {
 		'move <bot> right' -> 'move_right',
 		'move <bot> stop' -> 'move_stop',
 		'stop <bot>' -> 'stop',
-		'check <bot>' -> 'check',
+		'check <player>' -> 'check',
 		'checkall' -> 'checkall',
 		'tp <bot> <position>' -> 'tp',
 		'tp <bot> <position> <rotation>' -> 'tp_with_rotation',
 		'tp <bot> <player>' -> 'tp_to_player',
 		'tp <bot> <position> atBot' -> 'tp_at_bot',
 		'tp <bot> <position> <rotation> atBot' -> 'tp_at_bot_with_rotation',
+		'hotbar <bot> <hotbar>' -> 'hotbar',
+		'shadow' -> 'shadow',
 	},
 	'arguments' -> {
+		'hotbar' -> {
+			'type' -> 'int',
+			'min' -> 1,
+			'max' -> 9,
+			'suggest' -> [1,2,3,4,5,6,7,8,9]
+		},
 		'bot' -> {
+			'type' -> 'term',
+			'suggester' -> _(args) -> (
+				player_list = player('all');
+				bot_list = l();
+				c_for(i = 0, i < length(player_list), i += 1,
+					one_player_str = player_list:i;
+					if (scoreboard('carpetBot', one_player_str) == 1,
+						put(bot_list, length(bot_list), player_list:i)
+					);
+				);
+				put(bot_list, length(bot_list), player());
+				return(bot_list)
+			)
+		},
+		'killbot' -> {
 			'type' -> 'term',
 			'suggester' -> _(args) -> (
 				player_list = player('all');
@@ -106,18 +133,51 @@ __config() -> {
 		}
 	}
 };
-__check_offline(player_name) ->(
-	f_player = player(player_name);
-	if (!f_player, 
-		print('§4假人'+player_name+'未在线');
-		exit()
+__on_player_disconnects(player, reason) ->(
+	delete_all_files(player);
+	if(scoreboard('carpetBot', player) == 1,
+		scoreboard_remove('actimeCounter', player);
+		scoreboard_remove('carpetBot', player);
+		team_leave(player);
+		leaveGame = scoreboard('leaveGame', player);
+		scoreboard('leaveGame', player, leaveGame + 1);
 	);
-	if (scoreboard('carpetBot', f_player) != 1,
-		print('§4'+f_player+'不是假人');
+);
+__on_server_shuts_down() ->(
+	player_list = player('all');
+	c_for(i = 0, i < length(player_list), i += 1,
+		delete_all_files(player_list:i);
+		if(scoreboard('carpetBot', player) == 1,
+			scoreboard_remove('actimeCounter', player_list:i);
+			team_leave(player);
+		)
+	);
+	scoreboard_remove('carpetBot');
+	team_remove('carpetBot');
+	team_remove('shadowedPlayer')
+);
+check_fakeplayer(player_name) ->(
+	f_player = player(player_name);
+	if (!f_player,
+		(
+			print('§4假人'+player_name+'未在线');
+			exit()
+		),
+		scoreboard('carpetBot', f_player) != 1 && f_player != player(),
+		(
+			print('§4'+f_player+'不是假人');
+			exit()
+		)
+	)
+);
+check_offline(player_name) ->(
+	f_player = player(player_name);
+	if (!f_player,
+		print('§4玩家或假人'+player_name+'未在线');
 		exit()
 	)
 );
-__check_online(player_name) ->(
+check_online(player_name) ->(
 	f_player = player(player_name);
 	if (f_player,
 		if (scoreboard('carpetBot', f_player) == 1,
@@ -128,7 +188,7 @@ __check_online(player_name) ->(
 		exit()
 	)
 );
-__check_pos(x) ->(
+check_pos(x) ->(
 	x = number(x);
 	if(x == null,
 		print('§4请输入正确的坐标');
@@ -136,33 +196,13 @@ __check_pos(x) ->(
 	);
 	return(x)
 );
-__check_dim(s_player,f_player) ->(
+check_dim(s_player,f_player) ->(
 	if (s_player~'dimension' != f_player~'dimension',
 		print('§4不在同一维度！');
 		exit()
 	);
 );
-__player_list(i,player_list) ->(
-	one_player_list = split(' ',join('',slice(player_list,i,i+1)));
-	if(slice(one_player_list,0,1) == l('假的'),
-		one_player_str = join('',slice(one_player_list,1,2));
-		''
-	);
-	if(slice(one_player_list,0,1) != l('假的'),
-		one_player_str = join('',one_player_list);
-		''
-	);
-	return(one_player_str)
-);
-__on_player_disconnects(player, reason) ->(
-	if(scoreboard('carpetBot', player) == 1,
-		scoreboard_remove('actimeCounter', player);
-		__delete_all_files(player);
-		scoreboard_remove('carpetBot', player);
-		run('team leave '+ player)
-	);
-);
-__delete_all_files(f_player) ->(
+delete_all_files(f_player) ->(
 	delete_file(f_player + '-' + 'attack', 'text');
 	delete_file(f_player + '-' + 'drop', 'text');
 	delete_file(f_player + '-' + 'drop_stack', 'text');
@@ -170,42 +210,48 @@ __delete_all_files(f_player) ->(
 	delete_file(f_player + '-' + 'swap_hands', 'text');
 	delete_file(f_player + '-' + 'use', 'text');
 	delete_file(f_player + '-' + 'move_vertical', 'text');
-	delete_file(f_player + '-' + 'move_transverse', 'text');
+	delete_file(f_player + '-' + 'move_transverse', 'text')
 );
 help() ->(
 	print('--使用帮助：');
-	print('/tagplayer spawn <玩家名>\n  - 生成假人');
-	print('/tagplayer kill <玩家名>\n  - 删除假人');
-	print('/tagplayer killall\n  - 删除全部假人');
-	print('/tagplayer tp <玩家名> <x> <y> <z> (<仰俯> <偏转>) (atBot)\n  - 传送假人到<x>,<y>,<z>，可选<仰俯>和<偏转>角度，如以<atBot>结尾则相对坐标以假人为原点');
-	print('/tagplayer look <玩家名> <仰俯> <偏转>\n  - 转动假人视角，<x>、<y>可替换为“s”来代表你的视角方向');
-	print('/tagplayer look <玩家名> <up/down/east/west/south/north>\n  - 让假人向<上/下/东/西/南/北>方向看');
-	print('/tagplayer look <玩家名> <back/left/right>\n  - 让假人向<后/左/右>方向看');
-	print('/tagplayer move <玩家名> <backward/forward/left/right>\n  - 让假人<向前/向后/向左/向右>移动');
-	print('/tagplayer <attack/drop/dropStack/jump/swapHands/use> <玩家名> continuous\n  - 让假人持续<攻击或挖掘/丢一个物品/丢一组物品/跳跃/换手/使用物品>');
-	print('/tagplayer <attack/drop/dropStack/jump/swapHands/use> <玩家名> interval <整数>\n  - 让假人每<整数>游戏刻<攻击/丢一个物品/丢一组物品/跳跃/换手/使用物品>一次');
-	print('/tagplayer <attack/drop/dropStack/jump/swapHands/use> <玩家名> once\n  - 让假人<攻击或挖掘/丢一个物品/丢一组物品/跳跃/换手/使用物品>一次');
-	print('/tagplayer <drop/dropStack> <玩家名> <mainhand/offhand>\n  - 让假人<丢一个/丢一组><主手/副手>的物品');
-	print('/tagplayer <sneak/unsneak> <玩家名>\n  - 让假人<潜行/站立>');
-	print('/tagplayer <sprint/unsprint> <玩家名>\n  - 让假人准备<疾跑/行走>，在水中疾跑以游泳');
-	print('/tagplayer <mount/dismount> <玩家名>\n  - 让假人<乘坐/卸下>');
-	print('/tagplayer stop <玩家名>\n  - 停止假人的一切动作');
-	print('/tagplayer check <玩家名>\n  - 检查假人状态');
-	print('/tagplayer checkall\n  - 检查所有假人状态');
-	print('Version: '+global_version);
+	print('/' + global_filename + ' spawn <玩家名>\n  - 生成假人');
+	print('/' + global_filename + ' kill <玩家名>\n  - 删除假人');
+	print('/' + global_filename + ' killall\n  - 删除全部假人');
+	print('/' + global_filename + ' tp <玩家名> <x> <y> <z> (<仰俯> <偏转>) (atBot)\n  - 传送假人到<x>,<y>,<z>，可选<仰俯>和<偏转>角度，如以<atBot>结尾则相对坐标以假人为原点');
+	print('/' + global_filename + ' look <玩家名> <仰俯> <偏转>\n  - 转动假人视角，<x>、<y>可替换为“s”来代表你的视角方向');
+	print('/' + global_filename + ' look <玩家名> <up/down/east/west/south/north>\n  - 让假人向<上/下/东/西/南/北>方向看');
+	print('/' + global_filename + ' look <玩家名> <back/left/right>\n  - 让假人向<后/左/右>方向看');
+	print('/' + global_filename + ' move <玩家名> <backward/forward/left/right>\n  - 让假人<向前/向后/向左/向右>移动');
+	print('/' + global_filename + ' <attack/drop/dropStack/jump/swapHands/use> <玩家名> continuous\n  - 让假人持续<攻击或挖掘/丢一个物品/丢一组物品/跳跃/换手/使用物品>');
+	print('/' + global_filename + ' <attack/drop/dropStack/jump/swapHands/use> <玩家名> interval <整数>\n  - 让假人每<整数>游戏刻<攻击/丢一个物品/丢一组物品/跳跃/换手/使用物品>一次');
+	print('/' + global_filename + ' <attack/drop/dropStack/jump/swapHands/use> <玩家名> once\n  - 让假人<攻击或挖掘/丢一个物品/丢一组物品/跳跃/换手/使用物品>一次');
+	print('/' + global_filename + ' <hotbar> <玩家名> <1-9>\n  - 更改假人使用的热键栏');
+	print('/' + global_filename + ' <drop/dropStack> <玩家名> <mainhand/offhand>\n  - 让假人<丢一个/丢一组><主手/副手>的物品');
+	print('/' + global_filename + ' <sneak/unsneak> <玩家名>\n  - 让假人<潜行/站立>');
+	print('/' + global_filename + ' <sprint/unsprint> <玩家名>\n  - 让假人准备<疾跑/行走>，在水中疾跑以游泳');
+	print('/' + global_filename + ' <mount/dismount> <玩家名>\n  - 让假人<乘坐/卸下>');
+	print('/' + global_filename + ' stop <玩家名>\n  - 停止假人的一切动作');
+	print('/' + global_filename + ' check <玩家名>\n  - 检查假人状态');
+	print('/' + global_filename + ' checkall\n  - 检查所有假人状态');
+	print('tagplayer版本: ' + global_version);
+	print('carpet版本: ' + global_carpet_version:0);
+	if(number(global_carpet_version:1) < 201216 || global_carpet_version == null,
+		print('§4tagplayer需要地毯1.4.21或以上来运行！否则会出现预期之外的问题')
+	);
 	return()
 );
 reload() ->(
-	run('script unload tagplayer');
-	run('script load tagplayer');
-	run('tellraw @a {"text":"tagplayer重载成功！"}');
+	run('script load ' + global_filename);
+	run('tellraw @a {"text":"+ global_filename +重载成功！"}');
 	return()
 );
 summon(player_name) ->(
 	player_name = slice(player_name,0,15);
-	__check_online(player_name);
+	check_online(player_name);
 	s_player = player();
-	run(str('player %s spawn at %f %f %f facing %f %f', player_name, s_player~'x', s_player~'y', s_player~'z', query(s_player, 'yaw'), query(s_player, 'pitch')
+	run(
+		str('player %s spawn at %f %f %f facing %f %f', 
+			player_name, s_player~'x', s_player~'y', s_player~'z', query(s_player, 'yaw'), query(s_player, 'pitch')
 		)
 	);
 	f_player = player(player_name);
@@ -213,35 +259,30 @@ summon(player_name) ->(
 		print('§4生成失败');
 		return()
 	);
-	__delete_all_files(f_player);
-	run('team join carpetBot '+ f_player);
+	delete_all_files(f_player);
+	team_add('carpetBot', f_player);
 	run('tellraw @a {"text":"↑假的"}');
 	scoreboard('carpetBot', f_player, 1);
 	return()
 );
 kill(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
-	run(str('player %s kill', f_player));
-	game_tick(50);
-	run('tellraw @a {"text":"↑假的"}');
+	check_fakeplayer(player_name);
+	if(f_player != player(),
+		(
+			run('tellraw @a {"text":"↓假的"}');
+			run(str('player %s kill', f_player));
+		),
+		print('§4你不是假人')
+	);
 	return()
 );
 killall() ->(
-	i = 0;
-	player_list = player('all');
-	loop(2147483647,,,
-		one_player_str = __player_list(i,player_list);
-		if(one_player_str == '',
-			break()
-		);
-		if(scoreboard('carpetBot', one_player_str) == 1,
-			do_fake_player = 1
-		);
-		run(str('player %s kill', one_player_str));
-		i += 1
+	player_list = team_list('carpetBot');
+	c_for(i = 0, i < length(player_list), i += 1,
+		run(str('player %s kill', player_list:i));
 	);
-	if(do_fake_player != 1,
+	if(player_list == l(),
 		print('§4不存在假人');
 		return()
 	);
@@ -249,10 +290,23 @@ killall() ->(
 	run('tellraw @a {"text":"已清除全部假人"}');
 	return()
 );
+//挂机
+shadow() ->(
+	f_player = player();
+	run(str('player %s shadow', f_player));
+	scoreboard('carpetBot', f_player, 1);
+	team_add('shadowedPlayer', f_player);
+	return()
+);
+//热键栏
+hotbar(player_name, hotbar) ->(
+	run(str('player %s hotbar %d', player_name, hotbar));
+	return()
+);
 //攻击
 attack_continuous(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s attack continuous', player_name));
 	delete_file(f_player + '-' + 'attack', 'text');
 	write_file(f_player + '-' + 'attack', 'text', 0);
@@ -260,7 +314,7 @@ attack_continuous(player_name) ->(
 );
 attack_interval(player_name,tick) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s attack interval %d', player_name, tick));
 	delete_file(f_player + '-' + 'attack', 'text');
 	write_file(f_player + '-' + 'attack', 'text', tick);
@@ -268,14 +322,14 @@ attack_interval(player_name,tick) ->(
 );
 attack_once(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s attack once', player_name));
 	delete_file(f_player + '-' + 'attack', 'text');
 	return()
 );
 attack_stop(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s attack', player_name));
 	delete_file(f_player + '-' + 'attack', 'text');
 	return()
@@ -283,7 +337,7 @@ attack_stop(player_name) ->(
 //丢弃
 drop_continuous(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s drop continuous', player_name));
 	delete_file(f_player + '-' + 'drop', 'text');
 	write_file(f_player + '-' + 'drop', 'text', 0);
@@ -291,46 +345,46 @@ drop_continuous(player_name) ->(
 );
 drop_interval(player_name,tick) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);	run(str('player %s drop interval %d', player_name, tick));
+	check_fakeplayer(player_name);	run(str('player %s drop interval %d', player_name, tick));
 	delete_file(f_player + '-' + 'drop', 'text');
 	write_file(f_player + '-' + 'drop', 'text', tick);
 	return()
 );
 drop_once(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s drop once', player_name));
 	delete_file(f_player + '-' + 'drop', 'text');
 	return()
 );
 drop_stop(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s drop', player_name));
 	delete_file(f_player + '-' + 'drop', 'text');
 	return()
 );
 drop_all(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s drop all', player_name));
 	return()
 );
 drop_offhand(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	return()
 );
 drop_mainhand(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s drop mainhand', player_name));
 	return()
 );
 //丢弃一组
 drop_stack_continuous(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s dropStack continuous', player_name));
 	delete_file(f_player + '-' + 'drop_stack', 'text');
 	write_file(f_player + '-' + 'drop_stack', 'text', 0);
@@ -338,7 +392,7 @@ drop_stack_continuous(player_name) ->(
 );
 drop_stack_interval(player_name,tick) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s dropStack interval %d', player_name, tick));
 	delete_file(f_player + '-' + 'drop_stack', 'text');
 	write_file(f_player + '-' + 'drop_stack', 'text', tick);
@@ -346,41 +400,40 @@ drop_stack_interval(player_name,tick) ->(
 );
 drop_stack_once(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s dropStack once', player_name));
-	delete(global_bot_state:f_player:'drop_stack');
 	delete_file(f_player + '-' + 'drop_stack', 'text');
 	return()
 );
 drop_stack_stop(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s dropStack', player_name));
 	delete_file(f_player + '-' + 'drop_stack', 'text');
 	return()
 );
 drop_stack_all(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s dropStack all', player_name));
 	return()
 );
 drop_stack_offhand(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s dropStack offhand', player_name));
 	return()
 );
 drop_stack_mainhand(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s dropStack mainhand', player_name));
 	return()
 );
 //跳跃
 jump_continuous(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s jump continuous', player_name));
 	delete_file(f_player + '-' + 'jump', 'text');
 	write_file(f_player + '-' + 'jump', 'text', 0);
@@ -388,7 +441,7 @@ jump_continuous(player_name) ->(
 );
 jump_interval(player_name,tick) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s jump interval %d', player_name, tick));
 	delete_file(f_player + '-' + 'jump', 'text');
 	write_file(f_player + '-' + 'jump', 'text', tick);
@@ -396,14 +449,14 @@ jump_interval(player_name,tick) ->(
 );
 jump_once(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s jump once', player_name));
 	delete_file(f_player + '-' + 'jump', 'text');
 	return()
 );
 jump_stop(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s jump', player_name));
 	delete_file(f_player + '-' + 'jump', 'text');
 	return()
@@ -411,7 +464,7 @@ jump_stop(player_name) ->(
 //换手
 swap_hands_continuous(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s swapHands continuous', player_name));
 	delete_file(f_player + '-' + 'swap_hands', 'text');
 	write_file(f_player + '-' + 'swap_hands', 'text', 0);
@@ -419,7 +472,7 @@ swap_hands_continuous(player_name) ->(
 );
 swap_hands_interval(player_name,tick) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s swapHands interval %d', player_name, tick));
 	delete_file(f_player + '-' + 'swap_hands', 'text');
 	write_file(f_player + '-' + 'swap_hands', 'text', tick);
@@ -427,14 +480,14 @@ swap_hands_interval(player_name,tick) ->(
 );
 swap_hands_once(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s swapHands once', player_name));
 	delete_file(f_player + '-' + 'swap_hands', 'text');
 	return()
 );
 swap_hands_stop(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s swapHands', player_name));
 	delete_file(f_player + '-' + 'swap_hands', 'text');
 	return()
@@ -442,7 +495,7 @@ swap_hands_stop(player_name) ->(
 //右键
 use_continuous(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s use continuous', player_name));
 	delete_file(f_player + '-' + 'use', 'text');
 	write_file(f_player + '-' + 'use', 'text', 0);
@@ -450,21 +503,21 @@ use_continuous(player_name) ->(
 );
 use_interval(player_name,tick) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);	run(str('player %s use interval %d', player_name, tick));
+	check_fakeplayer(player_name);	run(str('player %s use interval %d', player_name, tick));
 	delete_file(f_player + '-' + 'use', 'text');
 	write_file(f_player + '-' + 'use', 'text', tick);
 	return()
 );
 use_once(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s use once', player_name));
 	delete_file(f_player + '-' + 'use', 'text');
 	return()
 );
 use_stop(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s use', player_name));
 	delete_file(f_player + '-' + 'use', 'text');
 	return()
@@ -472,27 +525,27 @@ use_stop(player_name) ->(
 //骑乘
 mount(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s mount', player_name));
 	return()
 );
 dismount(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s dismount', player_name));
 	return()
 );
 //冲刺
 sprint(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s sprint', player_name));
 	write_file(f_player + '-' + 'sprint', 'text', tick);
 	return()
 );
 unsprint(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s unsprint', player_name));
 	delete_file(f_player + '-' + 'sprint', 'text');
 	return()
@@ -500,14 +553,14 @@ unsprint(player_name) ->(
 //下蹲
 sneak(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s sneak', player_name));
 	write_file(f_player + '-' + 'sneak', 'text', tick);
 	return()
 );
 unsneak(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s unsneak', player_name));
 	delete_file(f_player + '-' + 'sneak', 'text');
 	return()
@@ -515,19 +568,19 @@ unsneak(player_name) ->(
 //转向
 turn_back(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s turn back', player_name));
 	return()
 );
 turn_left(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s turn left', player_name));
 	return()
 );
 turn_right(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s turn right', player_name));
 	return()
 );
@@ -535,7 +588,7 @@ turn_right(player_name) ->(
 look(player_name,rotation) ->(
 	print(rotation);
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	s_player = player();
 	x = (rotation:1)%360;
 	y = (rotation:0)%180;
@@ -558,50 +611,50 @@ look(player_name,rotation) ->(
 );
 look_up(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s look up', player_name));
 	return()
 );
 look_down(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s look down', player_name));
 	return()
 );
 look_east(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s look east', player_name));
 	return()
 );
 look_north(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s look north', player_name));
 	return()
 );
 look_south(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s look south', player_name));
 	return()
 );
 look_west(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s look west', player_name));
 	return()
 );
 look_pos(player_name, position) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s look at %f %f %f', player_name, position:0, position:1, position:2));
 	return()
 );
 //移动
 move_backward(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s move backward', player_name));
 	delete_file(f_player + '-' + 'move_vertical', 'text');
 	write_file(f_player + '-' + 'move_vertical', 'text', 'backward');
@@ -609,7 +662,7 @@ move_backward(player_name) ->(
 );
 move_forward(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s move forward', player_name));
 	delete_file(f_player + '-' + 'move_vertical', 'text');
 	write_file(f_player + '-' + 'move_vertical', 'text', 'forward');
@@ -617,7 +670,7 @@ move_forward(player_name) ->(
 );
 move_left(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s move left', player_name));
 	delete_file(f_player + '-' + 'move_transverse', 'text');
 	write_file(f_player + '-' + 'move_transverse', 'text', 'left');
@@ -625,7 +678,7 @@ move_left(player_name) ->(
 );
 move_right(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s move right', player_name));
 	delete_file(f_player + '-' + 'move_transverse', 'text');
 	write_file(f_player + '-' + 'move_transverse', 'text', 'right');
@@ -633,7 +686,7 @@ move_right(player_name) ->(
 );
 move_stop(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s move', player_name));
 	delete_file(f_player + '-' + 'move_vertical', 'text');
 	delete_file(f_player + '-' + 'move_transverse', 'text');
@@ -642,15 +695,15 @@ move_stop(player_name) ->(
 //停止
 stop(player_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	run(str('player %s stop', player_name));
-	__delete_all_files(f_player);
+	delete_all_files(f_player);
 	return()
 );
 //传送
 tp(player_name, position) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	s_player = player();
 	x = position:0;
 	y = position:1;
@@ -666,7 +719,7 @@ tp(player_name, position) ->(
 );
 tp_with_rotation(player_name, position, rotation) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	s_player = player();
 	f_player = player(player_name);
 	x = position:0;
@@ -696,7 +749,7 @@ tp_with_rotation(player_name, position, rotation) ->(
 );
 tp_to_player(player_name, target_name) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	s_player = player(target_name);
 	if (!s_player,
 		print('§4玩家未在线');
@@ -708,7 +761,7 @@ tp_to_player(player_name, target_name) ->(
 );
 tp_at_bot(player_name, position) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	s_player = player();
 	x = position:0;
 	y = position:1;
@@ -724,7 +777,7 @@ tp_at_bot(player_name, position) ->(
 );
 tp_at_bot_with_rotation(player_name, position, rotation) ->(
 	f_player = player(player_name);
-	__check_offline(player_name);
+	check_fakeplayer(player_name);
 	s_player = player();
 	f_player = player(player_name);
 	x = position:0;
@@ -754,9 +807,14 @@ tp_at_bot_with_rotation(player_name, position, rotation) ->(
 );
 //状态检查
 check(player_name) ->(
+	check_offline(player_name);
 	f_player = player(player_name);
-	__check_offline(player_name);
-	print('假人“'+f_player+'”：');
+	if(scoreboard('carpetBot', f_player) == 1,
+		(
+			print('假人“'+f_player+'”：');
+		),
+		print('玩家“'+f_player+'”：');
+	);
 	//血量
 	inner_health = number(str('%d',query(f_player,'health')+0.9));
 	if(inner_health <= 5,
@@ -1120,26 +1178,19 @@ check(player_name) ->(
 		noAct = false
 	);
 	if(noAct == true,
-		print('- 无动作')
+		print('- 无地毯动作')
 	);
 	return()
 );
 checkall() ->(
-	i = 0;
 	player_list = player('all');
-	loop(2147483647,,,
-		one_player_str = __player_list(i,player_list);
-		if(one_player_str == '',
-			break()
-		);
-		if(scoreboard('carpetBot', one_player_str) == 1,
-			check(one_player_str);
-			do_fake_player = 1
-		);
-		i += 1
-	);
-	if(do_fake_player != 1,
-		print('§4当前无假人')
+	c_for(i = 0, i < length(player_list), i += 1,
+		check(player_list:i);
 	);
 	return()
+);
+run(str('tellraw @a {"text": "[版本信息]tagplayer版本: ' + global_version + '", "color": "#ffd900"}'));
+run(str('tellraw @a {"text": "[版本信息]carpet版本: ' + global_carpet_version:0 + '", "color": "#ffd900"}'));
+if(number(global_carpet_version:1) < 201216 || global_carpet_version == null,
+	run(str('tellraw @a {"text": "[错误]tagplayer需要地毯1.4.21或以上来运行！否则会出现预期之外的问题", "color": "#ff6100"}');)
 );
