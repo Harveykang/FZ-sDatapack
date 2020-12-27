@@ -11,13 +11,12 @@ A Minecraft Datapack
 - 提供一些地毯脚本：
 	- 安装方法：
 		- 需要carpet mod 1.4.21：https://github.com/gnembon/fabric-carpet/releases
-		- 提供一个地毯脚本(位于压缩包内)配合数据包使用
 		- 将其放入“world/scripts”中(在客户端位于“.minecraft/saves/存档名/scripts”或“.minecraft/config/carpet/scripts”)
 			- 这三个文件夹默认不会自动生成，直接新建即可
 	- here.sc：
 		- “/here”向所有人发送自己的位置和所在维度
 			- 发送的消息使用voxelmap可识别的数组格式
-			- 安装voxelmap mod时，左键高亮该坐标，ctrl+左键新建坐标点
+			- 安装voxelmap mod后，左键高亮该坐标，ctrl+左键新建坐标点
 	- c.sc
 		- “/c”修改玩家模式为旁观模式
 	- s.sc
@@ -33,7 +32,7 @@ A Minecraft Datapack
 				- 其他用法可以在游戏内输入“/tagplayer”查看
 	- restore_scores.sc：
 		- 从数据包1.4升级时也需要使用这个工具
-		- 这个工具可以从白名单读取玩家列表，并逐一召唤假人，读取统计信息并赋值给记分板
+		- 这个工具可以从白名单读取玩家列表，逐一召唤假人，读取统计信息并赋值给记分板
 			- 悄悄说一句没白名单的服把usercache.json复制一份改成whitelist.json就可以啦
 		- 注意：原有的记分板会被删除
 		- 使用方法：
@@ -41,8 +40,10 @@ A Minecraft Datapack
 			- 输入“/restore_scores by_whitelist”开始恢复
 			- 输入“/scripts unload restore_scores”卸载工具
 			- 记得用完就删掉它！
-##### v2.0.0.9(计划)
+##### v2.0.0.10(计划)
 - 添加单独的记分板升级工具
+##### v2.0.0.9
+- 修复矿车白名单状态反了的bug
 ##### v2.0.0.8
 - 添加c.sc、s.sc、here.sc工具
 ##### v2.0.0.7
