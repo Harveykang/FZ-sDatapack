@@ -1,6 +1,7 @@
 global_version = '1.1.0';
 __config() -> {
-	'scope' -> 'global'
+	'scope' -> 'global',
+	'stay_loaded' -> false
 };
 __command() -> print('版本：' + global_version);
 global_bl = l('stone', 'granite', 'polished_granite', 'diorite', 'polished_diorite', 'andesite', 'polished_andesite', 'grass_block', 
