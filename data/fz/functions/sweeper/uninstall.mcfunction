@@ -1,3 +1,4 @@
+schedule clear fz:sweeper/bossbar
 schedule clear fz:sweeper/main
 schedule clear fz:sweeper/timer/1s
 schedule clear fz:sweeper/timer/2s

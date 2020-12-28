@@ -8,7 +8,7 @@ A Minecraft Datapack
 ### v2.0.0
 - 支持Minecraft1.16.x
 - 抬头并按一下shift来打开设置界面
-- 提供一些地毯脚本：
+- 提供一些地毯脚本：*请在升级数据包的同时替换这些工具！！*
 	- 安装方法：
 		- 需要carpet mod 1.4.21：https://github.com/gnembon/fabric-carpet/releases
 		- 将其放入“world/scripts”中(在客户端位于“.minecraft/saves/存档名/scripts”或“.minecraft/config/carpet/scripts”)
@@ -40,8 +40,10 @@ A Minecraft Datapack
 			- 输入“/restore_scores by_whitelist”开始恢复
 			- 输入“/scripts unload restore_scores”卸载工具
 			- 记得用完就删掉它！
-##### v2.0.0.10(计划)
-- 添加单独的记分板升级工具
+- 计划
+	- 添加单独的记分板升级工具
+##### v2.0.0.10
+- 扫地机添加了位于怪物血条栏的文字提示，同时添加了各种提示的开关功能
 ##### v2.0.0.9
 - 修复矿车白名单状态反了的bug
 ##### v2.0.0.8
