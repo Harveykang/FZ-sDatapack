@@ -16,9 +16,9 @@ function fz:login/logintips/install
 function fz:carpet/carpet
 #版本信息
 data merge storage fz.installed {installed:1b}
-data merge storage fz {version:Beta-2.0.0.10}
+data merge storage fz {version:Beta-2.0.0.11}
 data merge storage fz {date:2020-12.28}
-data merge storage fz {time:"17:16"}
+data merge storage fz {time:"18：01"}
 data merge storage fz {snapshot:-SNAPSHOT}
 ##data remove storage fz snapshot
 tellraw @a {"text": "[信息]启动完毕","color": "#5fff00"}

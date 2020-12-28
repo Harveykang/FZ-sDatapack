@@ -6,7 +6,7 @@ team_add('carpetBot');
 team_add('shadowedPlayer');
 team_property('carpetBot', 'prefix', '假的');
 team_property('shadowedPlayer', 'prefix', '挂机');
-global_version = '2.1.0';
+global_version = '2.1.1';
 global_carpet_version = split('\\+v',system_info('scarpet_version'));
 global_filename = system_info('app_name');
 __config() -> {
@@ -14,7 +14,10 @@ __config() -> {
 	'allow_command_conflicts' -> true,
 	'commands' -> {
 		'' -> 'help',
-		'spawn <player>' -> 'summon',
+		'spawn <player>' -> ['summon',null,null,null],
+		'spawn <player> at <position>' -> ['summon',null,null],
+		'spawn <player> at <position> facing <rotation>' -> ['summon',null],
+		'spawn <player> at <position> facing <rotation> in <dimension>' -> 'summon',
 		'kill <killbot>' -> 'kill',
 		'killall' -> 'killall',
 		'attack <bot>' -> 'attack_once',
@@ -81,6 +84,10 @@ __config() -> {
 		'shadow' -> 'shadow',
 	},
 	'arguments' -> {
+		'dimension' -> {
+			'type' -> 'text',
+			'suggest' -> ['overworld','the_nether','the_end']
+		},
 		'hotbar' -> {
 			'type' -> 'int',
 			'min' -> 1,
@@ -245,13 +252,22 @@ reload() ->(
 	run('tellraw @a {"text":"+ global_filename +重载成功！"}');
 	return()
 );
-summon(player_name) ->(
+summon(player_name, position, rotation, dimension) ->(
 	player_name = slice(player_name,0,15);
 	check_online(player_name);
 	s_player = player();
+	if(position == null,
+		position = query(s_player, 'pos')
+	);
+	if(rotation == null,
+		rotation = l(query(s_player, 'yaw'), query(s_player, 'pitch'))
+	);
+	if(dimension == null,
+		dimension = query(s_player, 'dimension')
+	);
 	run(
-		str('player %s spawn at %f %f %f facing %f %f', 
-			player_name, s_player~'x', s_player~'y', s_player~'z', query(s_player, 'yaw'), query(s_player, 'pitch')
+		str('player %s spawn at %f %f %f facing %f %f in %s', 
+			player_name, position:0, position:1, position:2, rotation:0, rotation:1, dimension
 		)
 	);
 	f_player = player(player_name);
