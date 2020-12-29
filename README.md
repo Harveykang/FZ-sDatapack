@@ -5,7 +5,7 @@ A Minecraft Datapack
 #### This project is licensed under the terms of the GNU General Public License v3.0.
 #### Copyright (C)2019-2020 Harvey.Kang
 
-# 由于github被一些人用于传播反华辱华言论，请移步国内平台：https://gitee.com/harvey-husky/FZ-sDatapack/releases
+# 请移步国内平台：https://gitee.com/harvey-husky/FZ-sDatapack/releases
 
 ### v2.0.0
 - 支持Minecraft1.16.x
